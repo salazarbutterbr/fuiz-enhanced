@@ -1,0 +1,60 @@
+{
+	"$schema": "https://inlang.com/schema/inlang-message-format",
+	"data": [
+		{
+			"id": "create.title",
+			"value": "Tạo Câu Đố",
+			"language": "vi"
+		},
+		{
+			"id": "create.quiz_title",
+			"value": "Tiêu Đề Câu Đố",
+			"language": "vi"
+		},
+		{
+			"id": "create.add_question",
+			"value": "Thêm Câu Hỏi",
+			"language": "vi"
+		},
+		{
+			"id": "create.save",
+			"value": "Lưu",
+			"language": "vi"
+		},
+		{
+			"id": "play.join",
+			"value": "Tham Gia",
+			"language": "vi"
+		},
+		{
+			"id": "play.enter_name",
+			"value": "Nhập tên của bạn",
+			"language": "vi"
+		},
+		{
+			"id": "play.start",
+			"value": "Bắt Đầu",
+			"language": "vi"
+		},
+		{
+			"id": "host.export_csv",
+			"value": "Xuất CSV",
+			"language": "vi"
+		},
+		{
+			"id": "host.language_settings",
+			"value": "Cài Đặt Ngôn Ngữ",
+			"language": "vi"
+		},
+		{
+			"id": "common.loading",
+			"value": "Đang tải...",
+			"language": "vi"
+		},
+		{
+			"id": "common.error",
+			"value": "Lỗi",
+			"language": "vi"
+		}
+	]
+} 

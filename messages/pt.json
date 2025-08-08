@@ -1,0 +1,60 @@
+{
+	"$schema": "https://inlang.com/schema/inlang-message-format",
+	"data": [
+		{
+			"id": "create.title",
+			"value": "Criar Quiz",
+			"language": "pt"
+		},
+		{
+			"id": "create.quiz_title",
+			"value": "Título do Quiz",
+			"language": "pt"
+		},
+		{
+			"id": "create.add_question",
+			"value": "Adicionar Pergunta",
+			"language": "pt"
+		},
+		{
+			"id": "create.save",
+			"value": "Salvar",
+			"language": "pt"
+		},
+		{
+			"id": "play.join",
+			"value": "Entrar",
+			"language": "pt"
+		},
+		{
+			"id": "play.enter_name",
+			"value": "Digite seu nome",
+			"language": "pt"
+		},
+		{
+			"id": "play.start",
+			"value": "Iniciar",
+			"language": "pt"
+		},
+		{
+			"id": "host.export_csv",
+			"value": "Exportar CSV",
+			"language": "pt"
+		},
+		{
+			"id": "host.language_settings",
+			"value": "Configurações de Idioma",
+			"language": "pt"
+		},
+		{
+			"id": "common.loading",
+			"value": "Carregando...",
+			"language": "pt"
+		},
+		{
+			"id": "common.error",
+			"value": "Erro",
+			"language": "pt"
+		}
+	]
+} 

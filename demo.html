@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fuiz Enhanced - Multi-Language Quiz Platform</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+    </style>
+</head>
+<body class="gradient-bg min-h-screen">
+    <div class="container mx-auto px-4 py-8">
+        <!-- Header -->
+        <div class="text-center mb-8">
+            <h1 class="text-4xl font-bold text-white mb-4">
+                🎯 Fuiz Enhanced
+            </h1>
+            <p class="text-xl text-white/90">
+                Multi-Language Quiz Platform with CSV Export
+            </p>
+        </div>
+
+        <!-- Navigation Tabs -->
+        <div class="flex justify-center mb-8">
+            <div class="bg-white rounded-lg p-1 shadow-lg">
+                <button onclick="showTab('create')" id="tab-create" class="px-6 py-2 rounded-md tab-button active">
+                    📝 Create Quiz
+                </button>
+                <button onclick="showTab('invite')" id="tab-invite" class="px-6 py-2 rounded-md tab-button">
+                    📤 Invite People
+                </button>
+                <button onclick="showTab('join')" id="tab-join" class="px-6 py-2 rounded-md tab-button">
+                    👤 Join Quiz
+                </button>
+                <button onclick="showTab('host')" id="tab-host" class="px-6 py-2 rounded-md tab-button">
+                    🎯 Host Dashboard
+                </button>
+            </div>
+        </div>
+
+        <!-- Create Quiz Tab -->
+        <div id="tab-content-create" class="tab-content">
+            <div class="bg-white rounded-lg shadow-lg p-6 max-w-4xl mx-auto">
+                <h2 class="text-2xl font-bold text-gray-800 mb-6">📝 Create Multi-Language Quiz</h2>
+                
+                <!-- Quiz Basic Info -->
+                <div class="mb-6 p-4 bg-blue-50 rounded-lg">
+                    <h3 class="font-semibold text-blue-800 mb-3">Quiz Information</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Quiz Title</label>
+                            <input type="text" id="quizTitle" placeholder="Enter quiz title..." 
+                                   class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Primary Language</label>
+                            <select id="primaryLanguage" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                <option value="en">🇺🇸 English</option>
+                                <option value="es">🇪🇸 Español</option>
+                                <option value="fr">🇫🇷 Français</option>
+                                <option value="pt">🇵🇹 Português</option>
+                                <option value="ru">🇷🇺 Русский</option>
+                                <option value="zh-cn">🇨🇳 中文 (简体)</option>
+                                <option value="vi">🇻🇳 Tiếng Việt</option>
+                                <option value="tr">🇹🇷 Türkçe</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Language Selection -->
+                <div class="mb-6 p-4 bg-green-50 rounded-lg">
+                    <h3 class="font-semibold text-green-800 mb-3">🌍 Supported Languages</h3>
+                    <p class="text-sm text-green-700 mb-4">Select which languages this quiz will be available in:</p>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                        <label class="flex items-center p-3 bg-white rounded-md border cursor-pointer hover:bg-gray-50">
+                            <input type="checkbox" value="en" checked class="mr-2">
+                            <span class="text-sm">🇺🇸 English</span>
+                        </label>
+                        <label class="flex items-center p-3 bg-white rounded-md border cursor-pointer hover:bg-gray-50">
+                            <input type="checkbox" value="es" class="mr-2">
+                            <span class="text-sm">🇪🇸 Español</span>
+                        </label>
+                        <label class="flex items-center p-3 bg-white rounded-md border cursor-pointer hover:bg-gray-50">
+                            <input type="checkbox" value="fr" class="mr-2">
+                            <span class="text-sm">🇫🇷 Français</span>
+                        </label>
+                        <label class="flex items-center p-3 bg-white rounded-md border cursor-pointer hover:bg-gray-50">
+                            <input type="checkbox" value="pt" class="mr-2">
+                            <span class="text-sm">🇵🇹 Português</span>
+                        </label>
+                        <label class="flex items-center p-3 bg-white rounded-md border cursor-pointer hover:bg-gray-50">
+                            <input type="checkbox" value="ru" class="mr-2">
+                            <span class="text-sm">🇷🇺 Русский</span>
+                        </label>
+                        <label class="flex items-center p-3 bg-white rounded-md border cursor-pointer hover:bg-gray-50">
+                            <input type="checkbox" value="zh-cn" class="mr-2">
+                            <span class="text-sm">🇨🇳 中文 (简体)</span>
+                        </label>
+                        <label class="flex items-center p-3 bg-white rounded-md border cursor-pointer hover:bg-gray-50">
+                            <input type="checkbox" value="vi" class="mr-2">
+                            <span class="text-sm">🇻🇳 Tiếng Việt</span>
+                        </label>
+                        <label class="flex items-center p-3 bg-white rounded-md border cursor-pointer hover:bg-gray-50">
+                            <input type="checkbox" value="tr" class="mr-2">
+                            <span class="text-sm">🇹🇷 Türkçe</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Sample Questions -->
+                <div class="mb-6 p-4 bg-purple-50 rounded-lg">
+                    <h3 class="font-semibold text-purple-800 mb-3">📋 Sample Questions</h3>
+                    <div class="space-y-4">
+                        <div class="p-3 bg-white rounded-md">
+                            <div class="font-medium mb-2">Q1: What is 2+2?</div>
+                            <div class="text-sm text-gray-600">Answers: 4 (correct), 3, 5, 6</div>
+                        </div>
+                        <div class="p-3 bg-white rounded-md">
+                            <div class="font-medium mb-2">Q2: Capital of France?</div>
+                            <div class="text-sm text-gray-600">Answers: Paris (correct), London, Berlin, Madrid</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-center">
+                    <button onclick="createQuiz()" class="px-8 py-3 bg-green-600 text-white rounded-md hover:bg-green-700 text-lg">
+                        💾 Create Quiz
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Invite People Tab -->
+        <div id="tab-content-invite" class="tab-content hidden">
+            <div class="bg-white rounded-lg shadow-lg p-6 max-w-2xl mx-auto">
+                <h2 class="text-2xl font-bold text-gray-800 mb-6">📤 Invite People to Your Quiz</h2>
+                
+                <div class="mb-6 p-4 bg-blue-50 rounded-lg">
+                    <h3 class="font-semibold text-blue-800 mb-3">🎯 Quiz Details</h3>
+                    <div class="space-y-2">
+                        <div><strong>Title:</strong> <span id="inviteQuizTitle">Math Quiz</span></div>
+                        <div><strong>Game ID:</strong> <span id="inviteGameId" class="font-mono bg-gray-100 px-2 py-1 rounded">ABC123</span></div>
+                        <div><strong>Languages:</strong> <span id="inviteLanguages">🇺🇸 English, 🇪🇸 Spanish, 🇫🇷 French</span></div>
+                    </div>
+                </div>
+
+                <div class="mb-6 p-4 bg-green-50 rounded-lg">
+                    <h3 class="font-semibold text-green-800 mb-3">🔗 Invitation Link</h3>
+                    <div class="flex gap-2">
+                        <input type="text" id="inviteLink" value="https://fuiz-enhanced.com/play/ABC123" 
+                               class="flex-1 px-3 py-2 border border-gray-300 rounded-md" readonly>
+                        <button onclick="copyInviteLink()" class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">
+                            Copy
+                        </button>
+                    </div>
+                </div>
+
+                <div class="mb-6 p-4 bg-purple-50 rounded-lg">
+                    <h3 class="font-semibold text-purple-800 mb-3">📱 Share Options</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <button onclick="shareInvitation()" class="p-3 bg-green-100 text-green-800 rounded-md hover:bg-green-200">
+                            📤 Share via App
+                        </button>
+                        <button onclick="showQRCode()" class="p-3 bg-blue-100 text-blue-800 rounded-md hover:bg-blue-200">
+                            📱 Show QR Code
+                        </button>
+                        <button onclick="copyInvitationText()" class="p-3 bg-purple-100 text-purple-800 rounded-md hover:bg-purple-200">
+                            📋 Copy Text
+                        </button>
+                        <button onclick="downloadInvitationCard()" class="p-3 bg-orange-100 text-orange-800 rounded-md hover:bg-orange-200">
+                            🎴 Download Card
+                        </button>
+                    </div>
+                </div>
+
+                <div class="text-center">
+                    <button onclick="startHosting()" class="px-6 py-3 bg-blue-600 text-white rounded-md hover:bg-blue-700">
+                        🎯 Start Hosting
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Join Quiz Tab -->
+        <div id="tab-content-join" class="tab-content hidden">
+            <div class="bg-white rounded-lg shadow-lg p-6 max-w-md mx-auto">
+                <h2 class="text-2xl font-bold text-gray-800 mb-6">👤 Join Quiz</h2>
+                
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Game ID</label>
+                    <input type="text" id="joinGameId" value="ABC123" placeholder="Enter game ID..." 
+                           class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">🌍 Select Your Language</label>
+                    <select id="joinLanguage" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <option value="en">🇺🇸 English</option>
+                        <option value="es">🇪🇸 Español</option>
+                        <option value="fr">🇫🇷 Français</option>
+                        <option value="pt">🇵🇹 Português</option>
+                        <option value="ru">🇷🇺 Русский</option>
+                        <option value="zh-cn">🇨🇳 中文 (简体)</option>
+                        <option value="vi">🇻🇳 Tiếng Việt</option>
+                        <option value="tr">🇹🇷 Türkçe</option>
+                    </select>
+                </div>
+
+                <div class="mb-6">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">👤 Enter Your Nickname</label>
+                    <input type="text" id="joinNickname" placeholder="Your nickname..." 
+                           class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+
+                <button onclick="joinQuiz()" class="w-full px-6 py-3 bg-blue-600 text-white rounded-md hover:bg-blue-700">
+                    Join Game
+                </button>
+
+                <div class="mt-4 p-3 bg-gray-50 rounded-lg">
+                    <p class="text-sm text-gray-600">
+                        <strong>Selected Language:</strong> <span id="joinSelectedLang">🇺🇸 English</span>
+                    </p>
+                    <p class="text-sm text-gray-600">
+                        The quiz will be displayed in your selected language.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Host Dashboard Tab -->
+        <div id="tab-content-host" class="tab-content hidden">
+            <div class="bg-white rounded-lg shadow-lg p-6 max-w-4xl mx-auto">
+                <h2 class="text-2xl font-bold text-gray-800 mb-6">🎯 Host Dashboard</h2>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <!-- Export Section -->
+                    <div class="p-4 bg-blue-50 rounded-lg">
+                        <h3 class="font-semibold text-blue-800 mb-3">📊 Export Results</h3>
+                        <div class="space-y-2">
+                            <button onclick="exportCSV('participants')" class="w-full p-3 bg-green-100 text-green-800 rounded-md hover:bg-green-200">
+                                📋 Participant Data
+                            </button>
+                            <button onclick="exportCSV('summary')" class="w-full p-3 bg-purple-100 text-purple-800 rounded-md hover:bg-purple-200">
+                                📈 Summary Statistics
+                            </button>
+                            <button onclick="exportCSV('analysis')" class="w-full p-3 bg-orange-100 text-orange-800 rounded-md hover:bg-orange-200">
+                                🔍 Detailed Analysis
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Participants List -->
+                    <div>
+                        <h3 class="font-semibold text-gray-800 mb-3">👥 Participants</h3>
+                        <div class="space-y-2">
+                            <div class="flex justify-between items-center p-3 bg-gray-50 rounded-md">
+                                <div>
+                                    <div class="font-medium">Alice (🇺🇸 English)</div>
+                                    <div class="text-sm text-gray-600">Team: Team A | Accuracy: 100%</div>
+                                </div>
+                                <div class="text-right">
+                                    <div class="font-bold text-lg">85 pts</div>
+                                    <div class="text-sm text-gray-600">2/2 correct</div>
+                                </div>
+                            </div>
+                            <div class="flex justify-between items-center p-3 bg-gray-50 rounded-md">
+                                <div>
+                                    <div class="font-medium">Carlos (🇪🇸 Spanish)</div>
+                                    <div class="text-sm text-gray-600">Team: Team B | Accuracy: 50%</div>
+                                </div>
+                                <div class="text-right">
+                                    <div class="font-bold text-lg">70 pts</div>
+                                    <div class="text-sm text-gray-600">1/2 correct</div>
+                                </div>
+                            </div>
+                            <div class="flex justify-between items-center p-3 bg-gray-50 rounded-md">
+                                <div>
+                                    <div class="font-medium">Marie (🇫🇷 French)</div>
+                                    <div class="text-sm text-gray-600">Team: Team A | Accuracy: 100%</div>
+                                </div>
+                                <div class="text-right">
+                                    <div class="font-bold text-lg">90 pts</div>
+                                    <div class="text-sm text-gray-600">2/2 correct</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Language Distribution -->
+                <div class="mt-6 p-4 bg-green-50 rounded-lg">
+                    <h3 class="font-semibold text-green-800 mb-3">🌍 Language Distribution</h3>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        <div class="text-center p-3 bg-white rounded-md">
+                            <div class="text-2xl mb-1">🇺🇸</div>
+                            <div class="font-medium">English</div>
+                            <div class="text-sm text-gray-600">1 participant</div>
+                        </div>
+                        <div class="text-center p-3 bg-white rounded-md">
+                            <div class="text-2xl mb-1">🇪🇸</div>
+                            <div class="font-medium">Spanish</div>
+                            <div class="text-sm text-gray-600">1 participant</div>
+                        </div>
+                        <div class="text-center p-3 bg-white rounded-md">
+                            <div class="text-2xl mb-1">🇫🇷</div>
+                            <div class="font-medium">French</div>
+                            <div class="text-sm text-gray-600">1 participant</div>
+                        </div>
+                        <div class="text-center p-3 bg-white rounded-md">
+                            <div class="text-2xl mb-1">📊</div>
+                            <div class="font-medium">Total</div>
+                            <div class="text-sm text-gray-600">3 participants</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Tab management
+        function showTab(tabName) {
+            // Hide all tab contents
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.add('hidden');
+            });
+            
+            // Remove active class from all tab buttons
+            document.querySelectorAll('.tab-button').forEach(button => {
+                button.classList.remove('active', 'bg-blue-600', 'text-white');
+                button.classList.add('text-gray-600');
+            });
+            
+            // Show selected tab content
+            document.getElementById('tab-content-' + tabName).classList.remove('hidden');
+            
+            // Add active class to selected tab button
+            document.getElementById('tab-' + tabName).classList.add('active', 'bg-blue-600', 'text-white');
+            document.getElementById('tab-' + tabName).classList.remove('text-gray-600');
+        }
+
+        // Quiz creation
+        function createQuiz() {
+            const title = document.getElementById('quizTitle').value || 'Math Quiz';
+            const primaryLang = document.getElementById('primaryLanguage').value;
+            
+            // Get selected languages
+            const selectedLanguages = [];
+            document.querySelectorAll('#tab-content-create input[type="checkbox"]:checked').forEach(checkbox => {
+                selectedLanguages.push(checkbox.value);
+            });
+            
+            if (selectedLanguages.length === 0) {
+                alert('Please select at least one language');
+                return;
+            }
+            
+            // Generate game ID
+            const gameId = Math.random().toString(36).substring(2, 8).toUpperCase();
+            
+            // Store quiz data
+            localStorage.setItem('currentQuiz', JSON.stringify({
+                title: title,
+                gameId: gameId,
+                primaryLanguage: primaryLang,
+                languages: selectedLanguages
+            }));
+            
+            // Update invitation tab
+            document.getElementById('inviteQuizTitle').textContent = title;
+            document.getElementById('inviteGameId').textContent = gameId;
+            document.getElementById('inviteLanguages').textContent = selectedLanguages.map(lang => {
+                const flags = {'en': '🇺🇸', 'es': '🇪🇸', 'fr': '🇫🇷', 'pt': '🇵🇹', 'ru': '🇷🇺', 'zh-cn': '🇨🇳', 'vi': '🇻🇳', 'tr': '🇹🇷'};
+                const names = {'en': 'English', 'es': 'Spanish', 'fr': 'French', 'pt': 'Portuguese', 'ru': 'Russian', 'zh-cn': 'Chinese', 'vi': 'Vietnamese', 'tr': 'Turkish'};
+                return `${flags[lang]} ${names[lang]}`;
+            }).join(', ');
+            
+            document.getElementById('inviteLink').value = `https://fuiz-enhanced.com/play/${gameId}`;
+            
+            alert('Quiz created successfully! Switch to "Invite People" tab to share it.');
+            showTab('invite');
+        }
+
+        // Invitation functions
+        function copyInviteLink() {
+            const link = document.getElementById('inviteLink').value;
+            navigator.clipboard.writeText(link);
+            alert('Invitation link copied to clipboard!');
+        }
+
+        function shareInvitation() {
+            const quizData = JSON.parse(localStorage.getItem('currentQuiz') || '{}');
+            const invitationText = `🎯 Join my quiz: "${quizData.title}"
+
+🌍 Available in: ${quizData.languages.join(', ')}
+🎮 Game ID: ${quizData.gameId}
+🔗 Join here: ${document.getElementById('inviteLink').value}
+
+Select your preferred language when joining!`;
+
+            if (navigator.share) {
+                navigator.share({
+                    title: `Join my quiz: ${quizData.title}`,
+                    text: invitationText,
+                    url: document.getElementById('inviteLink').value
+                });
+            } else {
+                navigator.clipboard.writeText(invitationText);
+                alert('Invitation text copied to clipboard!');
+            }
+        }
+
+        function showQRCode() {
+            const link = document.getElementById('inviteLink').value;
+            const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(link)}`;
+            window.open(qrUrl, '_blank');
+        }
+
+        function copyInvitationText() {
+            const quizData = JSON.parse(localStorage.getItem('currentQuiz') || '{}');
+            const invitationText = `🎯 Join my quiz: "${quizData.title}"
+
+🌍 Available in: ${quizData.languages.join(', ')}
+🎮 Game ID: ${quizData.gameId}
+🔗 Join here: ${document.getElementById('inviteLink').value}
+
+Select your preferred language when joining!`;
+            
+            navigator.clipboard.writeText(invitationText);
+            alert('Invitation text copied to clipboard!');
+        }
+
+        function downloadInvitationCard() {
+            const quizData = JSON.parse(localStorage.getItem('currentQuiz') || '{}');
+            const cardHtml = `
+                <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 20px; border-radius: 12px; text-align: center; font-family: Arial, sans-serif; max-width: 400px;">
+                    <h2 style="margin: 0 0 10px 0; font-size: 24px;">🎯 Quiz Invitation</h2>
+                    <h3 style="margin: 0 0 15px 0; font-size: 18px;">${quizData.title}</h3>
+                    <div style="margin: 15px 0; font-size: 14px;">
+                        🌍 Available Languages:<br>
+                        ${quizData.languages.join(', ')}
+                    </div>
+                    <div style="margin: 15px 0; padding: 10px; background: rgba(255,255,255,0.2); border-radius: 8px;">
+                        <strong>Game ID:</strong> ${quizData.gameId}
+                    </div>
+                    <a href="${document.getElementById('inviteLink').value}" style="display: inline-block; background: #4CAF50; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: bold; margin-top: 10px;">
+                        🎮 Join Quiz
+                    </a>
+                </div>
+            `;
+            
+            const blob = new Blob([cardHtml], { type: 'text/html' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'quiz-invitation.html';
+            a.click();
+        }
+
+        function startHosting() {
+            alert('Starting hosting session... Switch to "Host Dashboard" tab to monitor participants.');
+            showTab('host');
+        }
+
+        // Join quiz functions
+        function joinQuiz() {
+            const gameId = document.getElementById('joinGameId').value;
+            const language = document.getElementById('joinLanguage').value;
+            const nickname = document.getElementById('joinNickname').value;
+            
+            if (!nickname.trim()) {
+                alert('Please enter a nickname');
+                return;
+            }
+            
+            const languageName = document.getElementById('joinLanguage').options[document.getElementById('joinLanguage').selectedIndex].text;
+            alert(`Joining quiz ${gameId} as ${nickname} in ${languageName}`);
+        }
+
+        // Update language display
+        document.getElementById('joinLanguage').addEventListener('change', function() {
+            const selectedOption = this.options[this.selectedIndex];
+            document.getElementById('joinSelectedLang').textContent = selectedOption.text;
+        });
+
+        // CSV Export functions
+        function exportCSV(type) {
+            const sampleData = {
+                participants: [
+                    { nickname: 'Alice', language: '🇺🇸 English', score: 85, team: 'Team A', accuracy: '100%' },
+                    { nickname: 'Carlos', language: '🇪🇸 Spanish', score: 70, team: 'Team B', accuracy: '50%' },
+                    { nickname: 'Marie', language: '🇫🇷 French', score: 90, team: 'Team A', accuracy: '100%' }
+                ],
+                summary: {
+                    totalParticipants: 3,
+                    averageScore: 81.7,
+                    highestScore: 90,
+                    lowestScore: 70,
+                    languages: ['English', 'Spanish', 'French']
+                }
+            };
+
+            let csvContent = '';
+            let filename = '';
+
+            switch (type) {
+                case 'participants':
+                    csvContent = Papa.unparse(sampleData.participants);
+                    filename = 'fuiz_participants_' + new Date().toISOString().slice(0, 19).replace(/:/g, '-') + '.csv';
+                    break;
+                case 'summary':
+                    csvContent = Papa.unparse([sampleData.summary]);
+                    filename = 'fuiz_summary_' + new Date().toISOString().slice(0, 19).replace(/:/g, '-') + '.csv';
+                    break;
+                case 'analysis':
+                    const analysisData = sampleData.participants.map((p, i) => ({
+                        ...p,
+                        rank: i + 1,
+                        percentile: ((sampleData.participants.length - i) / sampleData.participants.length * 100).toFixed(1)
+                    }));
+                    csvContent = Papa.unparse(analysisData);
+                    filename = 'fuiz_analysis_' + new Date().toISOString().slice(0, 19).replace(/:/g, '-') + '.csv';
+                    break;
+            }
+
+            // Download CSV
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            const url = URL.createObjectURL(blob);
+            link.setAttribute('href', url);
+            link.setAttribute('download', filename);
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+
+            alert(`${type.charAt(0).toUpperCase() + type.slice(1)} CSV exported successfully!`);
+        }
+    </script>
+</body>
+</html> 

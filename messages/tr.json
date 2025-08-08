@@ -1,0 +1,60 @@
+{
+	"$schema": "https://inlang.com/schema/inlang-message-format",
+	"data": [
+		{
+			"id": "create.title",
+			"value": "Quiz Oluştur",
+			"language": "tr"
+		},
+		{
+			"id": "create.quiz_title",
+			"value": "Quiz Başlığı",
+			"language": "tr"
+		},
+		{
+			"id": "create.add_question",
+			"value": "Soru Ekle",
+			"language": "tr"
+		},
+		{
+			"id": "create.save",
+			"value": "Kaydet",
+			"language": "tr"
+		},
+		{
+			"id": "play.join",
+			"value": "Katıl",
+			"language": "tr"
+		},
+		{
+			"id": "play.enter_name",
+			"value": "Adınızı girin",
+			"language": "tr"
+		},
+		{
+			"id": "play.start",
+			"value": "Başla",
+			"language": "tr"
+		},
+		{
+			"id": "host.export_csv",
+			"value": "CSV Dışa Aktar",
+			"language": "tr"
+		},
+		{
+			"id": "host.language_settings",
+			"value": "Dil Ayarları",
+			"language": "tr"
+		},
+		{
+			"id": "common.loading",
+			"value": "Yükleniyor...",
+			"language": "tr"
+		},
+		{
+			"id": "common.error",
+			"value": "Hata",
+			"language": "tr"
+		}
+	]
+} 

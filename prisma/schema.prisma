@@ -1,0 +1,161 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Quiz {
+  id          String   @id @default(cuid())
+  title       String
+  description String?
+  gameId      String   @unique @default(cuid())
+  primaryLanguage String @default("en")
+  availableLanguages String[] // JSON array of language codes
+  isActive    Boolean  @default(false)
+  isPublic    Boolean  @default(true)
+  maxParticipants Int @default(500)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  createdBy   String?
+  
+  // Relations
+  slides      Slide[]
+  participants Participant[]
+  sessions    QuizSession[]
+  exports     QuizExport[]
+  
+  @@map("quizzes")
+}
+
+model Slide {
+  id          String   @id @default(cuid())
+  quizId      String
+  type        String   // "multiple_choice", "type_answer", "order"
+  title       String
+  content     Json     // Question content and answers
+  timeLimit   Int      @default(30)
+  points      Int      @default(10)
+  order       Int
+  translations Json?   // Language-specific translations
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  // Relations
+  quiz        Quiz     @relation(fields: [quizId], references: [id], onDelete: Cascade)
+  answers     Answer[]
+  
+  @@map("slides")
+}
+
+model Participant {
+  id          String   @id @default(cuid())
+  quizId      String
+  nickname    String
+  language    String   @default("en")
+  team        String?
+  socketId    String?
+  isActive    Boolean  @default(true)
+  joinedAt    DateTime @default(now())
+  lastSeen    DateTime @default(now())
+  
+  // Relations
+  quiz        Quiz     @relation(fields: [quizId], references: [id], onDelete: Cascade)
+  answers     Answer[]
+  session     QuizSession? @relation(fields: [sessionId], references: [id])
+  sessionId   String?
+  
+  @@unique([quizId, nickname])
+  @@map("participants")
+}
+
+model Answer {
+  id            String   @id @default(cuid())
+  participantId String
+  slideId       String
+  quizId        String
+  answer        String
+  isCorrect     Boolean
+  points        Int      @default(0)
+  responseTime  Int      // milliseconds
+  answeredAt    DateTime @default(now())
+  
+  // Relations
+  participant   Participant @relation(fields: [participantId], references: [id], onDelete: Cascade)
+  slide         Slide     @relation(fields: [slideId], references: [id], onDelete: Cascade)
+  
+  @@map("answers")
+}
+
+model QuizSession {
+  id          String   @id @default(cuid())
+  quizId      String
+  name        String
+  startedAt   DateTime @default(now())
+  endedAt     DateTime?
+  isActive    Boolean  @default(true)
+  currentSlide Int     @default(0)
+  totalSlides Int      @default(0)
+  
+  // Relations
+  participants Participant[]
+  
+  @@map("quiz_sessions")
+}
+
+model QuizExport {
+  id          String   @id @default(cuid())
+  quizId      String
+  type        String   // "participants", "summary", "analysis"
+  filename    String
+  data        Json     // Export data
+  createdAt   DateTime @default(now())
+  
+  // Relations
+  quiz        Quiz     @relation(fields: [quizId], references: [id], onDelete: Cascade)
+  
+  @@map("quiz_exports")
+}
+
+model User {
+  id          String   @id @default(cuid())
+  email       String   @unique
+  name        String?
+  password    String?
+  isAdmin     Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  @@map("users")
+}
+
+// Indexes for performance
+model Quiz {
+  @@index([gameId])
+  @@index([isActive])
+  @@index([createdAt])
+}
+
+model Participant {
+  @@index([quizId])
+  @@index([isActive])
+  @@index([joinedAt])
+}
+
+model Answer {
+  @@index([participantId])
+  @@index([slideId])
+  @@index([quizId])
+  @@index([answeredAt])
+}
+
+model QuizSession {
+  @@index([quizId])
+  @@index([isActive])
+  @@index([startedAt])
+} 

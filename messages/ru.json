@@ -1,0 +1,60 @@
+{
+	"$schema": "https://inlang.com/schema/inlang-message-format",
+	"data": [
+		{
+			"id": "create.title",
+			"value": "Создать Викторину",
+			"language": "ru"
+		},
+		{
+			"id": "create.quiz_title",
+			"value": "Название Викторины",
+			"language": "ru"
+		},
+		{
+			"id": "create.add_question",
+			"value": "Добавить Вопрос",
+			"language": "ru"
+		},
+		{
+			"id": "create.save",
+			"value": "Сохранить",
+			"language": "ru"
+		},
+		{
+			"id": "play.join",
+			"value": "Присоединиться",
+			"language": "ru"
+		},
+		{
+			"id": "play.enter_name",
+			"value": "Введите ваше имя",
+			"language": "ru"
+		},
+		{
+			"id": "play.start",
+			"value": "Начать",
+			"language": "ru"
+		},
+		{
+			"id": "host.export_csv",
+			"value": "Экспорт CSV",
+			"language": "ru"
+		},
+		{
+			"id": "host.language_settings",
+			"value": "Настройки Языка",
+			"language": "ru"
+		},
+		{
+			"id": "common.loading",
+			"value": "Загрузка...",
+			"language": "ru"
+		},
+		{
+			"id": "common.error",
+			"value": "Ошибка",
+			"language": "ru"
+		}
+	]
+} 

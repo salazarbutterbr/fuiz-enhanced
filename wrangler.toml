@@ -1,0 +1,30 @@
+#:schema node_modules/wrangler/config-schema.json
+name = "fuiz"
+compatibility_date = "2024-11-28"
+main = ".svelte-kit/cloudflare/_worker.js"
+assets = { directory = ".svelte-kit/cloudflare", binding = "ASSETS" }
+compatibility_flags = ["nodejs_compat", "nodejs_als"]
+
+services = [{ binding = "COUNTER", service = "counter" }]
+
+vars = { "BUN_VERSION" = "1.2.2", "WALLO_ORIGIN" = "https://wallo.dev" }
+
+[ai]
+binding = "AI"
+
+[[d1_databases]]
+binding = "DATABASE"
+database_name = "fuiz"
+database_id = "51b4dee7-59e7-42d9-9b90-9be2d4e6500e"
+
+[[kv_namespaces]]
+binding = "FUIZ_POLL"
+id = "c6b2f3614bcd414aabc6ae65a6546b64"
+
+[[r2_buckets]]
+binding = "BUCKET"
+bucket_name = "fuiz"
+
+[[kv_namespaces]]
+binding = "MAP"
+id = "c8aca143fe384d89aa82e431cf579069"
