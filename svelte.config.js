@@ -18,7 +18,10 @@ const config = {
 	},
 
 	kit: {
-		adapter: adapter(),
+		adapter: adapter({
+			precompress: false,
+			envPrefix: ''
+		}),
 
 		paths: {
 			relative: false
