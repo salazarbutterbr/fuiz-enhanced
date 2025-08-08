@@ -29,6 +29,12 @@ const config = {
 
 		prerender: {
 			origin: 'https://your-app.railway.app'
+		},
+
+		// Add proper server configuration
+		server: {
+			port: process.env.PORT || 3000,
+			host: '0.0.0.0'
 		}
 	}
 };
