@@ -3,6 +3,7 @@
 	lang="%paraglide.lang%"
 	dir="%paraglide.textDirection%"
 	style="min-height: 100%; display: flex"
+	class="dark:bg-gray-900"
 >
 	<head>
 		<meta charset="utf-8" />
@@ -23,7 +24,12 @@
 		<meta property="og:site_name" content="Fuiz" />
 		<meta name="twitter:card" content="summary_large_image" />
 		<script>
-			document.documentElement.setAttribute('data-theme', localStorage.getItem('theme') ?? '');
+			// Initialize dark mode
+			const darkMode = localStorage.getItem('darkMode') === 'true' || 
+				(!localStorage.getItem('darkMode') && window.matchMedia('(prefers-color-scheme: dark)').matches);
+			if (darkMode) {
+				document.documentElement.classList.add('dark');
+			}
 		</script>
 	</head>
 

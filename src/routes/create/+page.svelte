@@ -699,7 +699,11 @@
                       <div>
                         <label class="block text-sm font-medium text-gray-700">Correct Answers (one per line)</label>
                         <textarea
-                          bind:value={slides[currentSlideIndex].content.answers.join('\n')}
+                          value={slides[currentSlideIndex].content.answers.join('\n')}
+                          on:input={(e) => {
+                            slides[currentSlideIndex].content.answers = e.target.value.split('\n').filter(a => a.trim());
+                            slides = [...slides];
+                          }}
                           rows={3}
                           class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                           placeholder="Enter correct answers"
