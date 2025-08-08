@@ -1,21 +1,7 @@
 <script>
-	import LoadingCircle from './LoadingCircle.svelte';
-	import NiceBackground from './NiceBackground.svelte';
+	// Simple loading component
 </script>
 
-<div style:height="100%" style:display="flex" style:flex-direction="column">
-	<div style:flex="1">
-		<NiceBackground>
-			<div
-				style:height="100%"
-				style:display="flex"
-				style:justify-content="center"
-				style:align-items="center"
-			>
-				<div style:height="40px" style:width="40px">
-					<LoadingCircle borderWidth={8} />
-				</div>
-			</div>
-		</NiceBackground>
-	</div>
+<div class="min-h-screen bg-white dark:bg-gray-900 flex items-center justify-center">
+	<div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 dark:border-blue-400"></div>
 </div>
