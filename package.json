@@ -9,7 +9,7 @@
 		"dev": "concurrently \"npm run dev:frontend\" \"npm run dev:backend\"",
 		"dev:frontend": "vite dev",
 		"dev:backend": "nodemon server/index.js",
-		"build": "paraglide-js compile --project ./project.inlang --outdir ./src/lib/paraglide && vite build",
+		"build": "vite build",
 		"preview": "vite preview",
 		"start": "node server/index.js",
 		"deploy": "npm run build && npm start",
@@ -21,7 +21,6 @@
 	"devDependencies": {
 		"@inlang/paraglide-sveltekit": "^0.15.5",
 		"@sveltejs/adapter-node": "^2.0.0",
-		"@sveltejs/enhanced-img": "^1.0.0",
 		"@sveltejs/kit": "^2.0.0",
 		"@sveltejs/vite-plugin-svelte": "^3.0.0",
 		"@types/node": "^20.0.0",
