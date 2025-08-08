@@ -452,8 +452,9 @@
           
           <!-- Primary Language -->
           <div>
-            <label class="block text-sm font-medium text-gray-700 mb-2">Primary Language</label>
+            <label for="primaryLanguage" class="block text-sm font-medium text-gray-700 mb-2">Primary Language</label>
             <select
+              id="primaryLanguage"
               bind:value={primaryLanguage}
               class="block w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
             >
@@ -465,7 +466,7 @@
           
           <!-- Available Languages -->
           <div>
-            <label class="block text-sm font-medium text-gray-700 mb-2">Available Languages</label>
+            <span class="block text-sm font-medium text-gray-700 mb-2">Available Languages</span>
             <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
               {#each LanguageManager.getSupportedLanguages() as lang}
                 <label class="flex items-center">
@@ -503,9 +504,10 @@
         <div class="space-y-6">
           <!-- File Upload -->
           <div>
-            <label class="block text-sm font-medium text-gray-700 mb-2">Upload Quiz File</label>
+            <label for="fileUpload" class="block text-sm font-medium text-gray-700 mb-2">Upload Quiz File</label>
             <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
               <input
+                id="fileUpload"
                 type="file"
                 accept=".json,.csv"
                 on:change={handleFileUpload}
@@ -609,7 +611,15 @@
                 <div class="space-y-2">
                   {#each slides as slide, index}
                     <div
+                      role="button"
+                      tabindex="0"
                       on:click={() => currentSlideIndex = index}
+                      on:keydown={(e) => {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                          e.preventDefault();
+                          currentSlideIndex = index;
+                        }
+                      }}
                       class="w-full text-left p-3 rounded-lg border cursor-pointer {currentSlideIndex === index ? 'border-blue-500 bg-blue-50' : 'border-gray-200 hover:bg-gray-50'}"
                     >
                       <div class="flex justify-between items-center">
@@ -617,6 +627,7 @@
                         <button
                           on:click|stopPropagation={() => removeSlide(index)}
                           class="text-red-600 hover:text-red-800"
+                          aria-label="Remove question {index + 1}"
                         >
                           <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
@@ -641,8 +652,9 @@
                   
                   <!-- Question Title -->
                   <div class="mb-4">
-                    <label class="block text-sm font-medium text-gray-700">Question Title</label>
+                    <label for="questionTitle" class="block text-sm font-medium text-gray-700">Question Title</label>
                     <input
+                      id="questionTitle"
                       bind:value={slides[currentSlideIndex].title}
                       type="text"
                       class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
@@ -653,8 +665,9 @@
                   {#if slides[currentSlideIndex].type === 'multiple_choice'}
                     <div class="space-y-4">
                       <div>
-                        <label class="block text-sm font-medium text-gray-700">Question Text</label>
+                        <label for="questionTextMultiple" class="block text-sm font-medium text-gray-700">Question Text</label>
                         <input
+                          id="questionTextMultiple"
                           bind:value={slides[currentSlideIndex].content.question}
                           type="text"
                           class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
@@ -662,7 +675,7 @@
                       </div>
                       
                       <div>
-                        <label class="block text-sm font-medium text-gray-700">Answer Options</label>
+                        <span class="block text-sm font-medium text-gray-700">Answer Options</span>
                         {#each slides[currentSlideIndex].content.answers as answer, answerIndex}
                           <div class="flex items-center mt-2">
                             <input
@@ -688,8 +701,9 @@
                   {:else if slides[currentSlideIndex].type === 'type_answer'}
                     <div class="space-y-4">
                       <div>
-                        <label class="block text-sm font-medium text-gray-700">Question Text</label>
+                        <label for="questionTextType" class="block text-sm font-medium text-gray-700">Question Text</label>
                         <input
+                          id="questionTextType"
                           bind:value={slides[currentSlideIndex].content.question}
                           type="text"
                           class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
@@ -697,8 +711,9 @@
                       </div>
                       
                       <div>
-                        <label class="block text-sm font-medium text-gray-700">Correct Answers (one per line)</label>
+                        <label for="correctAnswers" class="block text-sm font-medium text-gray-700">Correct Answers (one per line)</label>
                         <textarea
+                          id="correctAnswers"
                           value={slides[currentSlideIndex].content.answers.join('\n')}
                           on:input={(e) => {
                             slides[currentSlideIndex].content.answers = e.target.value.split('\n').filter(a => a.trim());
@@ -715,8 +730,9 @@
                   <!-- Question Settings -->
                   <div class="grid grid-cols-2 gap-4 mt-6">
                     <div>
-                      <label class="block text-sm font-medium text-gray-700">Time Limit (seconds)</label>
+                      <label for="timeLimit" class="block text-sm font-medium text-gray-700">Time Limit (seconds)</label>
                       <input
+                        id="timeLimit"
                         bind:value={slides[currentSlideIndex].timeLimit}
                         type="number"
                         min="5"
@@ -725,8 +741,9 @@
                       />
                     </div>
                     <div>
-                      <label class="block text-sm font-medium text-gray-700">Points</label>
+                      <label for="points" class="block text-sm font-medium text-gray-700">Points</label>
                       <input
+                        id="points"
                         bind:value={slides[currentSlideIndex].points}
                         type="number"
                         min="1"
