@@ -1,4 +1,5 @@
 <script lang="ts">
+  // Admin dashboard for quiz management - updated for Railway deployment
   import { onMount } from 'svelte';
   import { LanguageManager } from '$lib/utils/languageManager.js';
 
@@ -674,8 +675,9 @@
           <form on:submit|preventDefault={updateSettings} class="space-y-6">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <label class="block text-sm font-medium text-gray-700">Maximum Participants per Quiz</label>
+                <label for="maxParticipants" class="block text-sm font-medium text-gray-700">Maximum Participants per Quiz</label>
                 <input
+                  id="maxParticipants"
                   bind:value={settings.maxParticipants}
                   type="number"
                   min="1"
@@ -685,8 +687,9 @@
               </div>
               
               <div>
-                <label class="block text-sm font-medium text-gray-700">Default Language</label>
+                <label for="defaultLanguage" class="block text-sm font-medium text-gray-700">Default Language</label>
                 <select
+                  id="defaultLanguage"
                   bind:value={settings.defaultLanguage}
                   class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                 >
@@ -700,20 +703,22 @@
             <div class="space-y-4">
               <div class="flex items-center">
                 <input
+                  id="autoBackup"
                   bind:checked={settings.autoBackup}
                   type="checkbox"
                   class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
                 />
-                <label class="ml-2 block text-sm text-gray-900">Enable automatic backups</label>
+                <label for="autoBackup" class="ml-2 block text-sm text-gray-900">Enable automatic backups</label>
               </div>
               
               <div class="flex items-center">
                 <input
+                  id="emailNotifications"
                   bind:checked={settings.emailNotifications}
                   type="checkbox"
                   class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
                 />
-                <label class="ml-2 block text-sm text-gray-900">Enable email notifications</label>
+                <label for="emailNotifications" class="ml-2 block text-sm text-gray-900">Enable email notifications</label>
               </div>
             </div>
             

@@ -608,9 +608,9 @@
                 <h3 class="text-lg font-medium text-gray-900 mb-4">Question List</h3>
                 <div class="space-y-2">
                   {#each slides as slide, index}
-                    <button
+                    <div
                       on:click={() => currentSlideIndex = index}
-                      class="w-full text-left p-3 rounded-lg border {currentSlideIndex === index ? 'border-blue-500 bg-blue-50' : 'border-gray-200 hover:bg-gray-50'}"
+                      class="w-full text-left p-3 rounded-lg border cursor-pointer {currentSlideIndex === index ? 'border-blue-500 bg-blue-50' : 'border-gray-200 hover:bg-gray-50'}"
                     >
                       <div class="flex justify-between items-center">
                         <span class="font-medium text-gray-900">Q{index + 1}</span>
@@ -625,7 +625,7 @@
                       </div>
                       <p class="text-sm text-gray-600 truncate">{slide.title}</p>
                       <span class="text-xs text-gray-500">{slide.type}</span>
-                    </button>
+                    </div>
                   {/each}
                 </div>
               </div>
