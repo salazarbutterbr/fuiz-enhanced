@@ -616,19 +616,19 @@
                   </tr>
                 </thead>
                 <tbody class="bg-white divide-y divide-gray-200">
-                  {#each exports as export}
+                  {#each exports as exportItem}
                     <tr>
                       <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                        {export.filename}
+                        {exportItem.filename}
                       </td>
                       <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                        {export.type}
+                        {exportItem.type}
                       </td>
                       <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                        {export.quiz?.title || 'Unknown'}
+                        {exportItem.quiz?.title || 'Unknown'}
                       </td>
                       <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                        {formatDate(export.createdAt)}
+                        {formatDate(exportItem.createdAt)}
                       </td>
                     </tr>
                   {/each}
