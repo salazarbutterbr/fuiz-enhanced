@@ -12,7 +12,7 @@
 		"dev:backend": "nodemon server/index.js",
 		"build": "vite build",
 		"preview": "vite preview",
-		"start": "node server/index.js",
+		"start": "node build/index.js",
 		"deploy": "npm run build && npm start",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"lint": "prettier --check . && eslint .",
@@ -33,7 +33,6 @@
 		"vite": "^5.0.0"
 	},
 	"dependencies": {
-		"@auth/d1-adapter": "^1.7.4",
 		"@auth/sveltekit": "^1.0.0",
 		"@prisma/client": "^5.0.0",
 		"bcryptjs": "^2.4.3",
