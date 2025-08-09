@@ -7,5 +7,9 @@ export const i18n = {
 			return resolve(event);
 		};
 	},
-	resolveRoute: (route: string) => route
+	resolveRoute: (route: string) => route,
+	reroute: () => {
+		// No rerouting needed for static build
+		return;
+	}
 };
