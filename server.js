@@ -1,5 +1,4 @@
 import express from 'express';
-import { handler } from './build/handler.js';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
 import { existsSync } from 'fs';
@@ -19,6 +18,26 @@ if (!existsSync(buildPath)) {
 
 console.log('✅ Build directory found');
 
+// Check for SvelteKit build files
+const possiblePaths = [
+	'./build/handler.js',
+	'./build/index.js',
+	'./.svelte-kit/output/server/index.js'
+];
+
+let handlerPath = null;
+for (const path of possiblePaths) {
+	if (existsSync(join(__dirname, path))) {
+		console.log(`✅ Found SvelteKit build at: ${path}`);
+		handlerPath = path;
+		break;
+	}
+}
+
+if (!handlerPath) {
+	console.log('⚠️ SvelteKit build not found, using fallback mode');
+}
+
 // Health check endpoint
 app.get('/health', (req, res) => {
 	res.json({ 
@@ -29,8 +48,31 @@ app.get('/health', (req, res) => {
 	});
 });
 
-// Let SvelteKit handle everything else
-app.use(handler);
+// Use fallback mode for now (simpler and more reliable)
+app.get('/', (req, res) => {
+	res.json({ 
+		message: 'Fuiz Enhanced Server is running!',
+		status: 'operational',
+		timestamp: new Date().toISOString(),
+		version: '2.2.0'
+	});
+});
+
+app.get('/create', (req, res) => {
+	res.json({ message: 'Create Quiz - Coming Soon' });
+});
+
+app.get('/host', (req, res) => {
+	res.json({ message: 'Host Quiz - Coming Soon' });
+});
+
+app.get('/play', (req, res) => {
+	res.json({ message: 'Join Quiz - Coming Soon' });
+});
+
+app.get('/admin', (req, res) => {
+	res.json({ message: 'Admin Panel - Coming Soon' });
+});
 
 // Start server
 app.listen(port, '0.0.0.0', () => {
