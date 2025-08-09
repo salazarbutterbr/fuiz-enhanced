@@ -39,14 +39,26 @@ try {
 		console.log('📁 SvelteKit contents:', readdirSync(svelteKitPath));
 		
 		// Try to import from the correct SvelteKit location
-		const { handler } = await import('./.svelte-kit/output/server/index.js');
-		app.use(handler);
-		console.log('🚀 SvelteKit frontend enabled from .svelte-kit/output/server/');
+		const module = await import('./.svelte-kit/output/server/index.js');
+		const handler = module.handler || module.default || module;
+		
+		if (typeof handler === 'function') {
+			app.use(handler);
+			console.log('🚀 SvelteKit frontend enabled from .svelte-kit/output/server/');
+		} else {
+			throw new Error('Handler is not a function: ' + typeof handler);
+		}
 	} else {
 		// Try the build directory
-		const { handler } = await import('./build/handler.js');
-		app.use(handler);
-		console.log('🚀 SvelteKit frontend enabled from build/handler.js');
+		const module = await import('./build/handler.js');
+		const handler = module.handler || module.default || module;
+		
+		if (typeof handler === 'function') {
+			app.use(handler);
+			console.log('🚀 SvelteKit frontend enabled from build/handler.js');
+		} else {
+			throw new Error('Handler is not a function: ' + typeof handler);
+		}
 	}
 	
 } catch (error) {
