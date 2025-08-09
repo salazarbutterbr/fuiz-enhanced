@@ -31,39 +31,27 @@ app.get('/health', (req, res) => {
 
 // Try to serve SvelteKit build
 try {
-	// Try different possible import paths
-	let handler = null;
+	// Check for the actual SvelteKit build structure
+	const svelteKitPath = join(__dirname, '.svelte-kit', 'output', 'server');
 	
-	// Method 1: Try direct import
-	try {
-		const module = await import('./build/handler.js');
-		handler = module.handler || module.default;
-		console.log('✅ SvelteKit handler loaded via direct import');
-	} catch (e) {
-		console.log('❌ Direct import failed:', e.message);
-	}
-	
-	// Method 2: Try index.js
-	if (!handler) {
-		try {
-			const module = await import('./build/index.js');
-			handler = module.handler || module.default;
-			console.log('✅ SvelteKit handler loaded via index.js');
-		} catch (e) {
-			console.log('❌ Index.js import failed:', e.message);
-		}
-	}
-	
-	if (handler) {
-		// Use SvelteKit handler for all routes
+	if (existsSync(svelteKitPath)) {
+		console.log('✅ Found SvelteKit output directory');
+		console.log('📁 SvelteKit contents:', readdirSync(svelteKitPath));
+		
+		// Try to import from the correct SvelteKit location
+		const { handler } = await import('./.svelte-kit/output/server/index.js');
 		app.use(handler);
-		console.log('🚀 SvelteKit frontend enabled');
+		console.log('🚀 SvelteKit frontend enabled from .svelte-kit/output/server/');
 	} else {
-		throw new Error('No handler found');
+		// Try the build directory
+		const { handler } = await import('./build/handler.js');
+		app.use(handler);
+		console.log('🚀 SvelteKit frontend enabled from build/handler.js');
 	}
 	
 } catch (error) {
-	console.log('⚠️ Could not load SvelteKit handler, using fallback mode:', error.message);
+	console.log('⚠️ Could not load SvelteKit handler:', error.message);
+	console.log('📋 Full error:', error);
 	
 	// Fallback: serve static files and basic routes
 	app.get('/', (req, res) => {
@@ -72,7 +60,8 @@ try {
 			status: 'operational',
 			timestamp: new Date().toISOString(),
 			version: '2.2.0',
-			note: 'SvelteKit frontend failed to load'
+			note: 'SvelteKit frontend failed to load',
+			error: error.message
 		});
 	});
 
