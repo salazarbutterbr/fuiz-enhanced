@@ -40,24 +40,49 @@ try {
 		
 		// Try to import from the correct SvelteKit location
 		const module = await import('./.svelte-kit/output/server/index.js');
-		const handler = module.handler || module.default || module;
+		console.log('📦 Module keys:', Object.keys(module));
 		
-		if (typeof handler === 'function') {
+		// Try different ways to get the handler
+		let handler = null;
+		
+		if (module.handler && typeof module.handler === 'function') {
+			handler = module.handler;
+		} else if (module.default && typeof module.default === 'function') {
+			handler = module.default;
+		} else if (module.default && module.default.handler && typeof module.default.handler === 'function') {
+			handler = module.default.handler;
+		} else if (typeof module === 'function') {
+			handler = module;
+		}
+		
+		if (handler) {
 			app.use(handler);
 			console.log('🚀 SvelteKit frontend enabled from .svelte-kit/output/server/');
 		} else {
-			throw new Error('Handler is not a function: ' + typeof handler);
+			throw new Error('No valid handler function found in module');
 		}
 	} else {
 		// Try the build directory
 		const module = await import('./build/handler.js');
-		const handler = module.handler || module.default || module;
+		console.log('📦 Build module keys:', Object.keys(module));
 		
-		if (typeof handler === 'function') {
+		let handler = null;
+		
+		if (module.handler && typeof module.handler === 'function') {
+			handler = module.handler;
+		} else if (module.default && typeof module.default === 'function') {
+			handler = module.default;
+		} else if (module.default && module.default.handler && typeof module.default.handler === 'function') {
+			handler = module.default.handler;
+		} else if (typeof module === 'function') {
+			handler = module;
+		}
+		
+		if (handler) {
 			app.use(handler);
 			console.log('🚀 SvelteKit frontend enabled from build/handler.js');
 		} else {
-			throw new Error('Handler is not a function: ' + typeof handler);
+			throw new Error('No valid handler function found in build module');
 		}
 	}
 	
