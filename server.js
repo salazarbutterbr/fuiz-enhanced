@@ -1,7 +1,7 @@
 import express from 'express';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
-import { existsSync } from 'fs';
+import { existsSync, readdirSync } from 'fs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -17,6 +17,7 @@ if (!existsSync(buildPath)) {
 }
 
 console.log('✅ Build directory found');
+console.log('📁 Build directory contents:', readdirSync(buildPath));
 
 // Health check endpoint
 app.get('/health', (req, res) => {
@@ -30,14 +31,37 @@ app.get('/health', (req, res) => {
 
 // Try to serve SvelteKit build
 try {
-	// Import the SvelteKit handler
-	const { handler } = await import('./build/handler.js');
-	console.log('✅ SvelteKit handler loaded successfully');
+	// Try different possible import paths
+	let handler = null;
 	
-	// Use SvelteKit handler for all routes
-	app.use(handler);
+	// Method 1: Try direct import
+	try {
+		const module = await import('./build/handler.js');
+		handler = module.handler || module.default;
+		console.log('✅ SvelteKit handler loaded via direct import');
+	} catch (e) {
+		console.log('❌ Direct import failed:', e.message);
+	}
 	
-	console.log('🚀 SvelteKit frontend enabled');
+	// Method 2: Try index.js
+	if (!handler) {
+		try {
+			const module = await import('./build/index.js');
+			handler = module.handler || module.default;
+			console.log('✅ SvelteKit handler loaded via index.js');
+		} catch (e) {
+			console.log('❌ Index.js import failed:', e.message);
+		}
+	}
+	
+	if (handler) {
+		// Use SvelteKit handler for all routes
+		app.use(handler);
+		console.log('🚀 SvelteKit frontend enabled');
+	} else {
+		throw new Error('No handler found');
+	}
+	
 } catch (error) {
 	console.log('⚠️ Could not load SvelteKit handler, using fallback mode:', error.message);
 	
@@ -47,7 +71,8 @@ try {
 			message: 'Fuiz Enhanced Server is running!',
 			status: 'operational',
 			timestamp: new Date().toISOString(),
-			version: '2.2.0'
+			version: '2.2.0',
+			note: 'SvelteKit frontend failed to load'
 		});
 	});
 
