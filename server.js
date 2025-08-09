@@ -29,95 +29,32 @@ app.get('/health', (req, res) => {
 	});
 });
 
-// Try to serve SvelteKit build
-try {
-	// Check for the actual SvelteKit build structure
-	const svelteKitPath = join(__dirname, '.svelte-kit', 'output', 'server');
-	
-	if (existsSync(svelteKitPath)) {
-		console.log('✅ Found SvelteKit output directory');
-		console.log('📁 SvelteKit contents:', readdirSync(svelteKitPath));
-		
-		// Try to import from the correct SvelteKit location
-		const module = await import('./.svelte-kit/output/server/index.js');
-		console.log('📦 Module keys:', Object.keys(module));
-		
-		// Try different ways to get the handler
-		let handler = null;
-		
-		if (module.handler && typeof module.handler === 'function') {
-			handler = module.handler;
-		} else if (module.default && typeof module.default === 'function') {
-			handler = module.default;
-		} else if (module.default && module.default.handler && typeof module.default.handler === 'function') {
-			handler = module.default.handler;
-		} else if (typeof module === 'function') {
-			handler = module;
-		}
-		
-		if (handler) {
-			app.use(handler);
-			console.log('🚀 SvelteKit frontend enabled from .svelte-kit/output/server/');
-		} else {
-			throw new Error('No valid handler function found in module');
-		}
+// Serve static files from SvelteKit build
+const staticPath = join(__dirname, 'build', 'client');
+if (existsSync(staticPath)) {
+	console.log('✅ Found SvelteKit client build');
+	app.use(express.static(staticPath));
+	console.log('🚀 Serving static files from:', staticPath);
+} else {
+	console.log('⚠️ No client build found, using fallback');
+}
+
+// Serve the main HTML file for all routes (SPA)
+app.get('*', (req, res) => {
+	const indexPath = join(__dirname, 'build', 'client', 'index.html');
+	if (existsSync(indexPath)) {
+		res.sendFile(indexPath);
 	} else {
-		// Try the build directory
-		const module = await import('./build/handler.js');
-		console.log('📦 Build module keys:', Object.keys(module));
-		
-		let handler = null;
-		
-		if (module.handler && typeof module.handler === 'function') {
-			handler = module.handler;
-		} else if (module.default && typeof module.default === 'function') {
-			handler = module.default;
-		} else if (module.default && module.default.handler && typeof module.default.handler === 'function') {
-			handler = module.default.handler;
-		} else if (typeof module === 'function') {
-			handler = module;
-		}
-		
-		if (handler) {
-			app.use(handler);
-			console.log('🚀 SvelteKit frontend enabled from build/handler.js');
-		} else {
-			throw new Error('No valid handler function found in build module');
-		}
-	}
-	
-} catch (error) {
-	console.log('⚠️ Could not load SvelteKit handler:', error.message);
-	console.log('📋 Full error:', error);
-	
-	// Fallback: serve static files and basic routes
-	app.get('/', (req, res) => {
+		// Fallback response
 		res.json({ 
 			message: 'Fuiz Enhanced Server is running!',
 			status: 'operational',
 			timestamp: new Date().toISOString(),
 			version: '2.2.0',
-			note: 'SvelteKit frontend failed to load',
-			error: error.message
+			note: 'Static files not found'
 		});
-	});
-
-	app.get('/create', (req, res) => {
-		res.json({ message: 'Create Quiz - Coming Soon' });
-	});
-
-	app.get('/host', (req, res) => {
-		res.json({ message: 'Host Quiz - Coming Soon' });
-	});
-
-	app.get('/play', (req, res) => {
-		res.json({ message: 'Join Quiz - Coming Soon' });
-	});
-
-	app.get('/admin', (req, res) => {
-		res.json({ message: 'Admin Panel - Coming Soon' });
-	});
-}
+	}
+});
 
 // Start server
 app.listen(port, '0.0.0.0', () => {
