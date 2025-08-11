@@ -49,43 +49,46 @@
 	<title>Host Quizzes - Fuiz Enhanced</title>
 </svelte:head>
 
-<div class="min-h-screen bg-gray-50 dark:bg-gray-900">
+<div class="min-h-screen bg-black">
 	<!-- Header -->
-	<header class="bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700">
+	<header class="bg-black/80 backdrop-blur-xl border-b border-white/10 sticky top-0 z-50">
 		<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 			<div class="flex justify-between items-center h-16">
 				<div class="flex items-center">
-					<h1 class="text-2xl font-bold text-gray-900 dark:text-white">Fuiz</h1>
+					<h1 class="text-2xl font-bold text-white">Fuiz</h1>
 				</div>
 				<div class="flex items-center space-x-4">
-					<a href="/create" class="button-primary px-4 py-2 rounded-md text-sm font-medium">
+					<a href="/create" class="text-white/80 hover:text-white transition-colors">
 						Create New Quiz
 					</a>
-					<a href="/" class="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">
-						Back to Home
+					<a href="/play" class="text-white/80 hover:text-white transition-colors">
+						Play
+					</a>
+					<a href="/" class="text-white/80 hover:text-white transition-colors">
+						Home
 					</a>
 				</div>
 			</div>
 		</div>
 	</header>
 
-	<main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+	<main class="max-w-7xl mx-auto px-4 py-8">
 		<div class="mb-8">
-			<h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-2">Your Quizzes</h2>
-			<p class="text-gray-600 dark:text-gray-300">Manage and host your created quizzes</p>
+			<h2 class="text-4xl font-bold text-white mb-2">Your Quizzes</h2>
+			<p class="text-white/60">Manage and host your created quizzes</p>
 		</div>
 
 		{#if isLoading}
 			<div class="text-center py-12">
 				<div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
-				<p class="mt-4 text-gray-600 dark:text-gray-300">Loading quizzes...</p>
+				<p class="mt-4 text-white/60">Loading quizzes...</p>
 			</div>
 		{:else if quizzes.length === 0}
 			<div class="text-center py-12">
-				<div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8 max-w-md mx-auto">
-					<h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-4">No quizzes yet</h3>
-					<p class="text-gray-600 dark:text-gray-300 mb-6">Create your first quiz to get started!</p>
-					<a href="/create" class="button-primary px-6 py-3 rounded-lg">
+				<div class="bg-gray-900/50 backdrop-blur-xl rounded-2xl border border-white/10 p-8 max-w-md mx-auto">
+					<h3 class="text-xl font-semibold text-white mb-4">No quizzes yet</h3>
+					<p class="text-white/60 mb-6">Create your first quiz to get started!</p>
+					<a href="/create" class="px-6 py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition-colors">
 						Create Your First Quiz
 					</a>
 				</div>
@@ -93,14 +96,14 @@
 		{:else}
 			<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 				{#each quizzes as quiz}
-					<div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden">
+					<div class="bg-gray-900/50 backdrop-blur-xl rounded-2xl border border-white/10 overflow-hidden hover:border-white/20 transition-colors">
 						<div class="p-6">
-							<h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">{quiz.title}</h3>
+							<h3 class="text-xl font-semibold text-white mb-2">{quiz.title}</h3>
 							{#if quiz.description}
-								<p class="text-gray-600 dark:text-gray-300 mb-4">{quiz.description}</p>
+								<p class="text-white/60 mb-4">{quiz.description}</p>
 							{/if}
 							
-							<div class="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400 mb-4">
+							<div class="flex items-center justify-between text-sm text-white/40 mb-4">
 								<span>Game ID: {quiz.gameId}</span>
 								<span>{quiz.slides?.length || 0} questions</span>
 							</div>
@@ -108,13 +111,13 @@
 							<div class="flex space-x-2">
 								<button
 									on:click={() => startQuiz(quiz.gameId)}
-									class="flex-1 button-primary px-4 py-2 rounded-md text-sm font-medium"
+									class="flex-1 px-4 py-2 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition-colors text-sm font-medium"
 								>
 									Start Quiz
 								</button>
 								<button
 									on:click={() => shareQuiz(quiz.gameId)}
-									class="button-secondary px-4 py-2 rounded-md text-sm font-medium"
+									class="px-4 py-2 bg-white/10 text-white rounded-xl hover:bg-white/20 transition-colors border border-white/20 text-sm font-medium"
 								>
 									Share
 								</button>
@@ -128,14 +131,6 @@
 </div>
 
 <style>
-	.button-primary {
-		@apply bg-blue-600 text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors;
-	}
-	
-	.button-secondary {
-		@apply bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition-colors;
-	}
-	
 	.animate-spin {
 		animation: spin 1s linear infinite;
 	}

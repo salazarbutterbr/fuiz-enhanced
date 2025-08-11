@@ -348,516 +348,469 @@
 </script>
 
 <svelte:head>
-  <title>Create Quiz - Fuiz Enhanced</title>
+	<title>Create Quiz - Fuiz Enhanced</title>
 </svelte:head>
 
-<div class="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 py-8">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <!-- Header -->
-    <div class="mb-8">
-      <h1 class="text-3xl font-bold text-gray-900">Create New Quiz</h1>
-      <p class="mt-2 text-gray-600">Build a multi-language quiz with custom questions and translations</p>
-    </div>
+<div class="min-h-screen bg-black">
+	<!-- Header -->
+	<header class="bg-black/80 backdrop-blur-xl border-b border-white/10 sticky top-0 z-50">
+		<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+			<div class="flex justify-between items-center h-16">
+				<div class="flex items-center">
+					<h1 class="text-2xl font-bold text-white">Fuiz</h1>
+				</div>
+				<div class="flex items-center space-x-4">
+					<a href="/host" class="text-white/80 hover:text-white transition-colors">
+						Host
+					</a>
+					<a href="/play" class="text-white/80 hover:text-white transition-colors">
+						Play
+					</a>
+					<a href="/" class="text-white/80 hover:text-white transition-colors">
+						Home
+					</a>
+				</div>
+			</div>
+		</div>
+	</header>
 
-    <!-- Messages -->
-    {#if errorMessage}
-      <div class="mb-6 bg-red-50 border border-red-200 rounded-md p-4">
-        <div class="flex">
-          <div class="flex-shrink-0">
-            <svg class="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
-              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
-            </svg>
-          </div>
-          <div class="ml-3">
-            <p class="text-sm text-red-800">{errorMessage}</p>
-          </div>
-        </div>
-      </div>
-    {/if}
+	<main class="max-w-4xl mx-auto px-4 py-8">
+		<div class="mb-8">
+			<h1 class="text-4xl font-bold text-white mb-2">Create Quiz</h1>
+			<p class="text-white/60">Build engaging quizzes with multiple question types</p>
+		</div>
 
-    {#if successMessage}
-      <div class="mb-6 bg-green-50 border border-green-200 rounded-md p-4">
-        <div class="flex">
-          <div class="flex-shrink-0">
-            <svg class="h-5 w-5 text-green-400" viewBox="0 0 20 20" fill="currentColor">
-              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM5 9a1 1 0 011-1h1.6a1 1 0 01.7.3l3.38 3.45a1 1 0 001.13.188l1.22-.61a1 1 0 01.64 1.264l-.39 1.24a1 1 0 01-.16.55l-.54.54a1 1 0 01-.7.29H9a1 1 0 01-1-1v-1.6a1 1 0 01.3-.7l3.45-3.38a1 1 0 00.188-1.13l-.61-1.22a1 1 0 011.264-.64l1.24.39a1 1 0 01.55.16l.54.54a1 1 0 01.29.7V9a1 1 0 01-1 1H9z" clip-rule="evenodd" />
-            </svg>
-          </div>
-          <div class="ml-3">
-            <p class="text-sm text-green-800">{successMessage}</p>
-          </div>
-        </div>
-      </div>
-    {/if}
+		{#if errorMessage}
+			<div class="mb-6 bg-red-900/20 border border-red-500/20 rounded-xl p-4">
+				<p class="text-red-400">{errorMessage}</p>
+			</div>
+		{/if}
 
-    <!-- Tabs -->
-    <div class="mb-6">
-      <nav class="flex space-x-8">
-        <button
-          on:click={() => activeTab = 'basic'}
-          class="py-2 px-1 border-b-2 font-medium text-sm {activeTab === 'basic' ? 'border-blue-500 text-blue-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'}"
-        >
-          Basic Info
-        </button>
-        <button
-          on:click={() => activeTab = 'upload'}
-          class="py-2 px-1 border-b-2 font-medium text-sm {activeTab === 'upload' ? 'border-blue-500 text-blue-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'}"
-        >
-          Upload Quiz
-        </button>
-        <button
-          on:click={() => activeTab = 'slides'}
-          class="py-2 px-1 border-b-2 font-medium text-sm {activeTab === 'slides' ? 'border-blue-500 text-blue-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'}"
-        >
-          Questions ({slides.length})
-        </button>
-        <button
-          on:click={() => activeTab = 'preview'}
-          class="py-2 px-1 border-b-2 font-medium text-sm {activeTab === 'preview' ? 'border-blue-500 text-blue-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'}"
-        >
-          Preview
-        </button>
-      </nav>
-    </div>
+		{#if successMessage}
+			<div class="mb-6 bg-green-900/20 border border-green-500/20 rounded-xl p-4">
+				<p class="text-green-400">{successMessage}</p>
+			</div>
+		{/if}
 
-    <!-- Tab Content -->
-    {#if activeTab === 'basic'}
-      <!-- Basic Information -->
-      <div class="bg-white rounded-lg shadow p-6">
-        <h2 class="text-xl font-semibold text-gray-900 mb-6">Quiz Information</h2>
-        
-        <div class="space-y-6">
-          <!-- Title and Description -->
-          <div>
-            <label for="title" class="block text-sm font-medium text-gray-700">Quiz Title *</label>
-            <input
-              id="title"
-              bind:value={quizTitle}
-              type="text"
-              class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-              placeholder="Enter quiz title"
-            />
-          </div>
-          
-          <div>
-            <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
-            <textarea
-              id="description"
-              bind:value={quizDescription}
-              rows={3}
-              class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-              placeholder="Enter quiz description"
-            ></textarea>
-          </div>
-          
-          <!-- Primary Language -->
-          <div>
-            <label for="primaryLanguage" class="block text-sm font-medium text-gray-700 mb-2">Primary Language</label>
-            <select
-              id="primaryLanguage"
-              bind:value={primaryLanguage}
-              class="block w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-            >
-              {#each LanguageManager.getSupportedLanguages() as lang}
-                <option value={lang.code}>{lang.flag} {lang.name}</option>
-              {/each}
-            </select>
-          </div>
-          
-          <!-- Available Languages -->
-          <div>
-            <span class="block text-sm font-medium text-gray-700 mb-2">Available Languages</span>
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
-              {#each LanguageManager.getSupportedLanguages() as lang}
-                <label class="flex items-center">
-                  <input
-                    type="checkbox"
-                    checked={selectedLanguages.includes(lang.code)}
-                    on:change={() => toggleLanguage(lang.code)}
-                    class="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
-                  />
-                  <span class="ml-2 text-sm text-gray-700">{lang.flag} {lang.name}</span>
-                </label>
-              {/each}
-            </div>
-          </div>
-          
-          <!-- Max Participants -->
-          <div>
-            <label for="maxParticipants" class="block text-sm font-medium text-gray-700">Maximum Participants</label>
-            <input
-              id="maxParticipants"
-              bind:value={maxParticipants}
-              type="number"
-              min="1"
-              max="1000"
-              class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-            />
-          </div>
-        </div>
-      </div>
-    {:else if activeTab === 'upload'}
-      <!-- Upload Quiz -->
-      <div class="bg-white rounded-lg shadow p-6">
-        <h2 class="text-xl font-semibold text-gray-900 mb-6">Upload Quiz File</h2>
-        
-        <div class="space-y-6">
-          <!-- File Upload -->
-          <div>
-            <label for="fileUpload" class="block text-sm font-medium text-gray-700 mb-2">Upload Quiz File</label>
-            <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
-              <input
-                id="fileUpload"
-                type="file"
-                accept=".json,.csv"
-                on:change={handleFileUpload}
-                class="hidden"
-              />
-              <label for="fileUpload" class="cursor-pointer">
-                <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48">
-                  <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                </svg>
-                <p class="mt-2 text-sm text-gray-600">
-                  <span class="font-medium text-blue-600 hover:text-blue-500">Click to upload</span> or drag and drop
-                </p>
-                <p class="mt-1 text-xs text-gray-500">JSON or CSV files only</p>
-              </label>
-            </div>
-          </div>
-          
-          <!-- Upload Progress -->
-          {#if isUploading}
-            <div>
-              <div class="flex justify-between text-sm text-gray-600 mb-1">
-                <span>Uploading...</span>
-                <span>{uploadProgress}%</span>
-              </div>
-              <div class="w-full bg-gray-200 rounded-full h-2">
-                <div class="bg-blue-600 h-2 rounded-full" style="width: {uploadProgress}%"></div>
-              </div>
-            </div>
-          {/if}
-          
-          <!-- Template Download -->
-          <div class="bg-gray-50 rounded-lg p-4">
-            <h3 class="text-sm font-medium text-gray-900 mb-2">Need a template?</h3>
-            <p class="text-sm text-gray-600 mb-3">Download our quiz template to see the correct format for JSON files.</p>
-            <button
-              on:click={downloadTemplate}
-              class="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-            >
-              <svg class="mr-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-              </svg>
-              Download Template
-            </button>
-          </div>
-          
-          <!-- File Format Help -->
-          <div class="bg-blue-50 rounded-lg p-4">
-            <h3 class="text-sm font-medium text-blue-900 mb-2">Supported Formats</h3>
-            <div class="text-sm text-blue-800 space-y-1">
-              <p><strong>JSON:</strong> Complete quiz structure with translations</p>
-              <p><strong>CSV:</strong> Simple question-answer format</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    {:else if activeTab === 'slides'}
-      <!-- Questions/Slides -->
-      <div class="space-y-6">
-        <!-- Add Question Buttons -->
-        <div class="bg-white rounded-lg shadow p-6">
-          <h2 class="text-xl font-semibold text-gray-900 mb-4">Questions</h2>
-          <div class="flex flex-wrap gap-3">
-            <button
-              on:click={() => addSlide('multiple_choice')}
-              class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700"
-            >
-              <svg class="mr-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-              </svg>
-              Add Multiple Choice
-            </button>
-            <button
-              on:click={() => addSlide('type_answer')}
-              class="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
-            >
-              <svg class="mr-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-              </svg>
-              Add Type Answer
-            </button>
-            <button
-              on:click={() => addSlide('order')}
-              class="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
-            >
-              <svg class="mr-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-              </svg>
-              Add Order Question
-            </button>
-          </div>
-        </div>
+		<!-- Tabs -->
+		<div class="mb-8">
+			<div class="flex space-x-1 bg-gray-900/50 rounded-xl p-1">
+				<button
+					on:click={() => activeTab = 'basic'}
+					class="flex-1 px-4 py-2 rounded-lg text-sm font-medium transition-colors {activeTab === 'basic' ? 'bg-blue-600 text-white' : 'text-white/60 hover:text-white'}"
+				>
+					Basic Info
+				</button>
+				<button
+					on:click={() => activeTab = 'slides'}
+					class="flex-1 px-4 py-2 rounded-lg text-sm font-medium transition-colors {activeTab === 'slides' ? 'bg-blue-600 text-white' : 'text-white/60 hover:text-white'}"
+				>
+					Questions ({slides.length})
+				</button>
+				<button
+					on:click={() => activeTab = 'preview'}
+					class="flex-1 px-4 py-2 rounded-lg text-sm font-medium transition-colors {activeTab === 'preview' ? 'bg-blue-600 text-white' : 'text-white/60 hover:text-white'}"
+				>
+					Preview
+				</button>
+			</div>
+		</div>
 
-        <!-- Question List -->
-        {#if slides.length > 0}
-          <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <!-- Question List Sidebar -->
-            <div class="lg:col-span-1">
-              <div class="bg-white rounded-lg shadow p-4">
-                <h3 class="text-lg font-medium text-gray-900 mb-4">Question List</h3>
-                <div class="space-y-2">
-                  {#each slides as slide, index}
-                    <div
-                      role="button"
-                      tabindex="0"
-                      on:click={() => currentSlideIndex = index}
-                      on:keydown={(e) => {
-                        if (e.key === 'Enter' || e.key === ' ') {
-                          e.preventDefault();
-                          currentSlideIndex = index;
-                        }
-                      }}
-                      class="w-full text-left p-3 rounded-lg border cursor-pointer {currentSlideIndex === index ? 'border-blue-500 bg-blue-50' : 'border-gray-200 hover:bg-gray-50'}"
-                    >
-                      <div class="flex justify-between items-center">
-                        <span class="font-medium text-gray-900">Q{index + 1}</span>
-                        <button
-                          on:click|stopPropagation={() => removeSlide(index)}
-                          class="text-red-600 hover:text-red-800"
-                          aria-label="Remove question {index + 1}"
-                        >
-                          <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                          </svg>
-                        </button>
-                      </div>
-                      <p class="text-sm text-gray-600 truncate">{slide.title}</p>
-                      <span class="text-xs text-gray-500">{slide.type}</span>
-                    </div>
-                  {/each}
-                </div>
-              </div>
-            </div>
+		{#if activeTab === 'basic'}
+			<!-- Basic Information -->
+			<div class="space-y-6">
+				<div class="bg-gray-900/50 backdrop-blur-xl rounded-2xl border border-white/10 p-6">
+					<h2 class="text-xl font-semibold text-white mb-4">Quiz Information</h2>
+					
+					<div class="space-y-4">
+						<div>
+							<label for="quizTitle" class="block text-sm font-medium text-white/80 mb-2">
+								Quiz Title *
+							</label>
+							<input
+								id="quizTitle"
+								type="text"
+								bind:value={quizTitle}
+								placeholder="Enter quiz title..."
+								class="w-full px-4 py-3 bg-black/50 border border-white/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white placeholder-white/40"
+								required
+							/>
+						</div>
 
-            <!-- Question Editor -->
-            {#if currentSlideIndex >= 0}
-              <div class="lg:col-span-2">
-                <div class="bg-white rounded-lg shadow p-6">
-                  <h3 class="text-lg font-medium text-gray-900 mb-4">
-                    Question {currentSlideIndex + 1} - {slides[currentSlideIndex].type}
-                  </h3>
-                  
-                  <!-- Question Title -->
-                  <div class="mb-4">
-                    <label for="questionTitle" class="block text-sm font-medium text-gray-700">Question Title</label>
-                    <input
-                      id="questionTitle"
-                      bind:value={slides[currentSlideIndex].title}
-                      type="text"
-                      class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                    />
-                  </div>
-                  
-                  <!-- Question Content -->
-                  {#if slides[currentSlideIndex].type === 'multiple_choice'}
-                    <div class="space-y-4">
-                      <div>
-                        <label for="questionTextMultiple" class="block text-sm font-medium text-gray-700">Question Text</label>
-                        <input
-                          id="questionTextMultiple"
-                          bind:value={slides[currentSlideIndex].content.question}
-                          type="text"
-                          class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                        />
-                      </div>
-                      
-                      <div>
-                        <span class="block text-sm font-medium text-gray-700">Answer Options</span>
-                        {#each slides[currentSlideIndex].content.answers as answer, answerIndex}
-                          <div class="flex items-center mt-2">
-                            <input
-                              type="radio"
-                              name="correct-{currentSlideIndex}"
-                              checked={answer.correct}
-                              on:change={() => {
-                                slides[currentSlideIndex].content.answers.forEach((a, i) => a.correct = i === answerIndex);
-                                slides = [...slides];
-                              }}
-                              class="mr-3"
-                            />
-                            <input
-                              bind:value={answer.content.Text}
-                              type="text"
-                              class="flex-1 border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                              placeholder="Answer option"
-                            />
-                          </div>
-                        {/each}
-                      </div>
-                    </div>
-                  {:else if slides[currentSlideIndex].type === 'type_answer'}
-                    <div class="space-y-4">
-                      <div>
-                        <label for="questionTextType" class="block text-sm font-medium text-gray-700">Question Text</label>
-                        <input
-                          id="questionTextType"
-                          bind:value={slides[currentSlideIndex].content.question}
-                          type="text"
-                          class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                        />
-                      </div>
-                      
-                      <div>
-                        <label for="correctAnswers" class="block text-sm font-medium text-gray-700">Correct Answers (one per line)</label>
-                        <textarea
-                          id="correctAnswers"
-                          value={slides[currentSlideIndex].content.answers.join('\n')}
-                          on:input={(e) => {
-                            slides[currentSlideIndex].content.answers = e.target.value.split('\n').filter(a => a.trim());
-                            slides = [...slides];
-                          }}
-                          rows={3}
-                          class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                          placeholder="Enter correct answers"
-                        ></textarea>
-                      </div>
-                    </div>
-                  {/if}
-                  
-                  <!-- Question Settings -->
-                  <div class="grid grid-cols-2 gap-4 mt-6">
-                    <div>
-                      <label for="timeLimit" class="block text-sm font-medium text-gray-700">Time Limit (seconds)</label>
-                      <input
-                        id="timeLimit"
-                        bind:value={slides[currentSlideIndex].timeLimit}
-                        type="number"
-                        min="5"
-                        max="300"
-                        class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                      />
-                    </div>
-                    <div>
-                      <label for="points" class="block text-sm font-medium text-gray-700">Points</label>
-                      <input
-                        id="points"
-                        bind:value={slides[currentSlideIndex].points}
-                        type="number"
-                        min="1"
-                        max="100"
-                        class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                      />
-                    </div>
-                  </div>
-                  
-                  <!-- Translation Management -->
-                  <div class="mt-6">
-                    <h4 class="text-sm font-medium text-gray-900 mb-3">Translations</h4>
-                    <div class="grid grid-cols-2 md:grid-cols-4 gap-2">
-                      {#each selectedLanguages as lang}
-                        {#if lang !== primaryLanguage}
-                          <button
-                            on:click={() => {
-                              if (slides[currentSlideIndex].translations?.[lang]) {
-                                removeTranslation(currentSlideIndex, lang);
-                              } else {
-                                addTranslation(currentSlideIndex, lang);
-                              }
-                            }}
-                            class="px-3 py-2 text-sm rounded-md border {slides[currentSlideIndex].translations?.[lang] ? 'border-green-500 bg-green-50 text-green-700' : 'border-gray-300 bg-white text-gray-700 hover:bg-gray-50'}"
-                          >
-                            {LanguageManager.getLanguageName(lang)}
-                          </button>
-                        {/if}
-                      {/each}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            {/if}
-          </div>
-        {:else}
-          <div class="bg-white rounded-lg shadow p-12 text-center">
-            <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-            </svg>
-            <h3 class="mt-2 text-sm font-medium text-gray-900">No questions yet</h3>
-            <p class="mt-1 text-sm text-gray-500">Get started by adding your first question.</p>
-          </div>
-        {/if}
-      </div>
-    {:else if activeTab === 'preview'}
-      <!-- Preview -->
-      <div class="bg-white rounded-lg shadow p-6">
-        <h2 class="text-xl font-semibold text-gray-900 mb-6">Quiz Preview</h2>
-        
-        <div class="space-y-6">
-          <!-- Quiz Info -->
-          <div class="border-b pb-4">
-            <h3 class="text-lg font-medium text-gray-900">{quizTitle || 'Untitled Quiz'}</h3>
-            {#if quizDescription}
-              <p class="text-gray-600 mt-1">{quizDescription}</p>
-            {/if}
-            <div class="flex items-center space-x-4 mt-2 text-sm text-gray-500">
-              <span>Primary: {LanguageManager.getLanguageName(primaryLanguage)}</span>
-              <span>Languages: {selectedLanguages.length}</span>
-              <span>Questions: {slides.length}</span>
-              <span>Max Participants: {maxParticipants}</span>
-            </div>
-          </div>
-          
-          <!-- Questions Preview -->
-          {#if slides.length > 0}
-            <div class="space-y-4">
-              {#each slides as slide, index}
-                <div class="border rounded-lg p-4">
-                  <div class="flex justify-between items-start mb-2">
-                    <h4 class="font-medium text-gray-900">Q{index + 1}: {slide.title}</h4>
-                    <span class="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded">{slide.type}</span>
-                  </div>
-                  {#if slide.content.question}
-                    <p class="text-gray-600 text-sm mb-2">{slide.content.question}</p>
-                  {/if}
-                  <div class="flex justify-between text-xs text-gray-500">
-                    <span>{slide.timeLimit}s</span>
-                    <span>{slide.points} points</span>
-                  </div>
-                </div>
-              {/each}
-            </div>
-          {:else}
-            <p class="text-gray-500 text-center py-8">No questions to preview</p>
-          {/if}
-        </div>
-      </div>
-    {/if}
+						<div>
+							<label for="quizDescription" class="block text-sm font-medium text-white/80 mb-2">
+								Description
+							</label>
+							<textarea
+								id="quizDescription"
+								bind:value={quizDescription}
+								placeholder="Enter quiz description..."
+								rows="3"
+								class="w-full px-4 py-3 bg-black/50 border border-white/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white placeholder-white/40"
+							></textarea>
+						</div>
 
-    <!-- Action Buttons -->
-    <div class="mt-8 flex justify-between items-center">
-      <div class="flex space-x-3">
-        <button
-          on:click={() => exportQuiz()}
-          class="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
-        >
-          <svg class="mr-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-          </svg>
-          Export Quiz
-        </button>
-      </div>
-      
-      <button
-        on:click={createQuiz}
-        disabled={!quizTitle.trim() || slides.length === 0}
-        class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
-      >
-        <svg class="mr-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-        </svg>
-        Create Quiz
-      </button>
-    </div>
-  </div>
+						<div>
+							<label for="primaryLanguage" class="block text-sm font-medium text-white/80 mb-2">
+								Primary Language
+							</label>
+							<select
+								id="primaryLanguage"
+								bind:value={primaryLanguage}
+								class="w-full px-4 py-3 bg-black/50 border border-white/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white"
+							>
+								{#each LanguageManager.getSupportedLanguages() as language}
+									<option value={language.code}>
+										{language.flag} {language.name}
+									</option>
+								{/each}
+							</select>
+						</div>
+
+						<div>
+							<label for="maxParticipants" class="block text-sm font-medium text-white/80 mb-2">
+								Maximum Participants per Quiz
+							</label>
+							<input
+								id="maxParticipants"
+								type="number"
+								bind:value={maxParticipants}
+								min="1"
+								max="1000"
+								class="w-full px-4 py-3 bg-black/50 border border-white/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white"
+							/>
+						</div>
+					</div>
+				</div>
+
+				<div class="bg-gray-900/50 backdrop-blur-xl rounded-2xl border border-white/10 p-6">
+					<h2 class="text-xl font-semibold text-white mb-4">Available Languages</h2>
+					<div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+						{#each LanguageManager.getSupportedLanguages() as language}
+							<label class="flex items-center space-x-2 cursor-pointer">
+								<input
+									type="checkbox"
+									checked={selectedLanguages.includes(language.code)}
+									on:change={() => toggleLanguage(language.code)}
+									class="rounded border-white/20 bg-black/50 text-blue-600 focus:ring-blue-500"
+								/>
+								<span class="text-white/80">{language.flag} {language.name}</span>
+							</label>
+						{/each}
+					</div>
+				</div>
+
+				<div class="bg-gray-900/50 backdrop-blur-xl rounded-2xl border border-white/10 p-6">
+					<h2 class="text-xl font-semibold text-white mb-4">Upload Quiz File (Optional)</h2>
+					<div class="space-y-4">
+						<div>
+							<label for="fileUpload" class="block text-sm font-medium text-white/80 mb-2">
+								Upload Quiz File
+							</label>
+							<input
+								id="fileUpload"
+								type="file"
+								accept=".json,.csv"
+								on:change={handleFileUpload}
+								class="w-full px-4 py-3 bg-black/50 border border-white/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white/60 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-blue-600 file:text-white hover:file:bg-blue-700"
+							/>
+						</div>
+
+						{#if isUploading}
+							<div class="w-full bg-gray-800 rounded-full h-2">
+								<div class="bg-blue-600 h-2 rounded-full transition-all duration-300" style="width: {uploadProgress}%"></div>
+							</div>
+						{/if}
+
+						<div class="flex space-x-2">
+							<button
+								type="button"
+								on:click={downloadTemplate}
+								class="px-4 py-2 bg-white/10 text-white rounded-lg hover:bg-white/20 transition-colors border border-white/20"
+							>
+								Download Template
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		{:else if activeTab === 'slides'}
+			<!-- Questions/Slides -->
+			<div class="space-y-6">
+				<!-- Add Question Buttons -->
+				<div class="bg-gray-900/50 backdrop-blur-xl rounded-2xl border border-white/10 p-6">
+					<h2 class="text-xl font-semibold text-white mb-4">Questions</h2>
+					<div class="flex flex-wrap gap-3">
+						<button
+							on:click={() => addSlide('multiple_choice')}
+							class="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition-colors"
+						>
+							<svg class="mr-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+							</svg>
+							Add Multiple Choice
+						</button>
+						<button
+							on:click={() => addSlide('type_answer')}
+							class="inline-flex items-center px-4 py-2 bg-white/10 text-white rounded-xl hover:bg-white/20 transition-colors border border-white/20"
+						>
+							<svg class="mr-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+							</svg>
+							Add Type Answer
+						</button>
+						<button
+							on:click={() => addSlide('order')}
+							class="inline-flex items-center px-4 py-2 bg-white/10 text-white rounded-xl hover:bg-white/20 transition-colors border border-white/20"
+						>
+							<svg class="mr-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+							</svg>
+							Add Order Question
+						</button>
+					</div>
+				</div>
+
+				<!-- Question List -->
+				{#if slides.length === 0}
+					<div class="text-center py-12">
+						<div class="bg-gray-900/50 backdrop-blur-xl rounded-2xl border border-white/10 p-8">
+							<h3 class="text-xl font-semibold text-white mb-4">No questions yet</h3>
+							<p class="text-white/60 mb-6">Add your first question to get started!</p>
+							<button
+								on:click={() => addSlide('multiple_choice')}
+								class="px-6 py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition-colors"
+							>
+								Add First Question
+							</button>
+						</div>
+					</div>
+				{:else}
+					<div class="space-y-4">
+						{#each slides as slide, index}
+							<div class="bg-gray-900/50 backdrop-blur-xl rounded-2xl border border-white/10 p-6">
+								<div class="flex justify-between items-start mb-4">
+									<h3 class="text-lg font-semibold text-white">Question {index + 1}</h3>
+									<button
+										on:click={() => slides = slides.filter((_, i) => i !== index)}
+										class="text-red-400 hover:text-red-300 transition-colors"
+										aria-label="Remove question"
+									>
+										<svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+											<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+										</svg>
+									</button>
+								</div>
+
+								<div class="space-y-4">
+									<div>
+										<label for="slideTitle{index}" class="block text-sm font-medium text-white/80 mb-2">
+											Question Title
+										</label>
+										<input
+											id="slideTitle{index}"
+											type="text"
+											bind:value={slide.title}
+											placeholder="Enter question title..."
+											class="w-full px-4 py-3 bg-black/50 border border-white/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white placeholder-white/40"
+										/>
+									</div>
+
+									{#if slide.type === 'multiple_choice'}
+										<div>
+											<label for="slideQuestion{index}" class="block text-sm font-medium text-white/80 mb-2">
+												Question Text
+											</label>
+											<input
+												id="slideQuestion{index}"
+												type="text"
+												bind:value={slide.content.question}
+												placeholder="Enter question text..."
+												class="w-full px-4 py-3 bg-black/50 border border-white/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white placeholder-white/40"
+											/>
+										</div>
+
+										<div>
+											<label class="block text-sm font-medium text-white/80 mb-2">
+												Correct Answers
+											</label>
+											<div class="space-y-2">
+												{#each slide.content.answers as answer, answerIndex}
+													<div class="flex items-center space-x-2">
+														<input
+															type="radio"
+															name="correct{index}"
+															checked={answer.correct}
+															on:change={() => {
+																slide.content.answers.forEach((a, i) => a.correct = i === answerIndex);
+																slides = [...slides];
+															}}
+															class="text-blue-600 focus:ring-blue-500"
+														/>
+														<input
+															type="text"
+															bind:value={answer.content.Text}
+															placeholder="Answer option {answerIndex + 1}..."
+															class="flex-1 px-4 py-3 bg-black/50 border border-white/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white placeholder-white/40"
+														/>
+													</div>
+												{/each}
+											</div>
+										</div>
+									{:else if slide.type === 'type_answer'}
+										<div>
+											<label for="slideQuestion{index}" class="block text-sm font-medium text-white/80 mb-2">
+												Question Text
+											</label>
+											<input
+												id="slideQuestion{index}"
+												type="text"
+												bind:value={slide.content.question}
+												placeholder="Enter question text..."
+												class="w-full px-4 py-3 bg-black/50 border border-white/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white placeholder-white/40"
+											/>
+										</div>
+
+										<div>
+											<label class="block text-sm font-medium text-white/80 mb-2">
+												Correct Answers (one per line)
+											</label>
+											<textarea
+												value={slide.content.answers.join('\n')}
+												on:input={(e) => {
+													slide.content.answers = e.target.value.split('\n').filter(a => a.trim());
+													slides = [...slides];
+												}}
+												placeholder="Enter correct answers..."
+												rows="3"
+												class="w-full px-4 py-3 bg-black/50 border border-white/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white placeholder-white/40"
+											></textarea>
+										</div>
+									{/if}
+
+									<div class="grid grid-cols-2 gap-4">
+										<div>
+											<label for="timeLimit{index}" class="block text-sm font-medium text-white/80 mb-2">
+												Time Limit (seconds)
+											</label>
+											<input
+												id="timeLimit{index}"
+												type="number"
+												bind:value={slide.timeLimit}
+												min="5"
+												max="300"
+												class="w-full px-4 py-3 bg-black/50 border border-white/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white"
+											/>
+										</div>
+										<div>
+											<label for="points{index}" class="block text-sm font-medium text-white/80 mb-2">
+												Points
+											</label>
+											<input
+												id="points{index}"
+												type="number"
+												bind:value={slide.points}
+												min="1"
+												max="100"
+												class="w-full px-4 py-3 bg-black/50 border border-white/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white"
+											/>
+										</div>
+									</div>
+								</div>
+							</div>
+						{/each}
+					</div>
+				{/if}
+			</div>
+		{:else if activeTab === 'preview'}
+			<!-- Preview -->
+			<div class="bg-gray-900/50 backdrop-blur-xl rounded-2xl border border-white/10 p-6">
+				<h2 class="text-xl font-semibold text-white mb-4">Quiz Preview</h2>
+				
+				{#if quizTitle}
+					<div class="mb-6">
+						<h3 class="text-2xl font-bold text-white mb-2">{quizTitle}</h3>
+						{#if quizDescription}
+							<p class="text-white/60">{quizDescription}</p>
+						{/if}
+					</div>
+				{/if}
+
+				{#if slides.length > 0}
+					<div class="space-y-4">
+						{#each slides as slide, index}
+							<div class="bg-black/50 rounded-xl p-4 border border-white/10">
+								<h4 class="text-lg font-semibold text-white mb-2">Question {index + 1}: {slide.title}</h4>
+								{#if slide.content.question}
+									<p class="text-white/80 mb-3">{slide.content.question}</p>
+								{/if}
+								
+								{#if slide.type === 'multiple_choice'}
+									<div class="space-y-2">
+										{#each slide.content.answers as answer}
+											<div class="flex items-center space-x-2">
+												<div class="w-4 h-4 rounded-full border-2 border-white/20"></div>
+												<span class="text-white/60">{answer.content.Text}</span>
+												{#if answer.correct}
+													<span class="text-green-400 text-sm">✓</span>
+												{/if}
+											</div>
+										{/each}
+									</div>
+								{:else if slide.type === 'type_answer'}
+									<div class="space-y-1">
+										{#each slide.content.answers as answer}
+											<div class="text-white/60">• {answer}</div>
+										{/each}
+									</div>
+								{/if}
+								
+								<div class="mt-3 text-sm text-white/40">
+									Time: {slide.timeLimit}s • Points: {slide.points}
+								</div>
+							</div>
+						{/each}
+					</div>
+				{:else}
+					<p class="text-white/60">No questions added yet.</p>
+				{/if}
+			</div>
+		{/if}
+
+		<!-- Action Buttons -->
+		<div class="flex justify-between items-center pt-8">
+			<button
+				on:click={() => activeTab = activeTab === 'basic' ? 'basic' : activeTab === 'slides' ? 'basic' : 'slides'}
+				class="px-6 py-3 bg-white/10 text-white rounded-xl hover:bg-white/20 transition-colors border border-white/20"
+			>
+				{activeTab === 'basic' ? 'Cancel' : 'Back'}
+			</button>
+			
+			<div class="flex space-x-3">
+				{#if activeTab === 'basic'}
+					<button
+						on:click={() => activeTab = 'slides'}
+						class="px-6 py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition-colors"
+					>
+						Next: Add Questions
+					</button>
+				{:else if activeTab === 'slides'}
+					<button
+						on:click={() => activeTab = 'preview'}
+						class="px-6 py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition-colors"
+					>
+						Preview Quiz
+					</button>
+				{:else if activeTab === 'preview'}
+					<button
+						on:click={createQuiz}
+						disabled={!quizTitle.trim() || slides.length === 0}
+						class="px-6 py-3 bg-green-600 text-white rounded-xl hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+					>
+						Create Quiz
+					</button>
+				{/if}
+			</div>
+		</div>
+	</main>
 </div> 

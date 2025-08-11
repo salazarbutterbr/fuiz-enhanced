@@ -115,26 +115,26 @@
 	<title>Playing Quiz - Fuiz Enhanced</title>
 </svelte:head>
 
-<div class="min-h-screen bg-gray-50 dark:bg-gray-900">
+<div class="min-h-screen bg-black">
 	<!-- Header -->
-	<header class="bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700">
+	<header class="bg-black/80 backdrop-blur-xl border-b border-white/10 sticky top-0 z-50">
 		<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 			<div class="flex justify-between items-center h-16">
 				<div class="flex items-center space-x-4">
-					<h1 class="text-xl font-semibold text-gray-900 dark:text-white">Fuiz</h1>
-					<span class="text-sm text-gray-500 dark:text-gray-400">Game: {gameId}</span>
+					<h1 class="text-xl font-semibold text-white">Fuiz</h1>
+					<span class="text-sm text-white/60">Game: {gameId}</span>
 				</div>
 				<div class="flex items-center space-x-4">
-					<span class="text-sm text-gray-600 dark:text-gray-300">Player: {nickname}</span>
-					<span class="text-sm font-medium text-blue-600 dark:text-blue-400">Score: {score}</span>
+					<span class="text-sm text-white/60">Player: {nickname}</span>
+					<span class="text-sm font-medium text-blue-400">Score: {score}</span>
 				</div>
 			</div>
 		</div>
 	</header>
 
-	<main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+	<main class="max-w-4xl mx-auto px-4 py-8">
 		{#if errorMessage}
-			<div class="mb-6 bg-red-50 dark:bg-red-900 border border-red-200 dark:border-red-700 rounded-md p-4">
+			<div class="mb-6 bg-red-900/20 border border-red-500/20 rounded-xl p-4">
 				<div class="flex">
 					<div class="flex-shrink-0">
 						<svg class="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
@@ -142,7 +142,7 @@
 						</svg>
 					</div>
 					<div class="ml-3">
-						<p class="text-sm text-red-800 dark:text-red-200">{errorMessage}</p>
+						<p class="text-sm text-red-400">{errorMessage}</p>
 					</div>
 				</div>
 			</div>
@@ -152,19 +152,19 @@
 			<!-- Loading -->
 			<div class="text-center py-12">
 				<div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
-				<h2 class="mt-4 text-xl font-semibold text-gray-900 dark:text-white">Loading quiz...</h2>
+				<h2 class="mt-4 text-xl font-semibold text-white">Loading quiz...</h2>
 			</div>
 		{:else if gameStatus === 'active' && quiz}
 			<!-- Active Game -->
-			<div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8">
+			<div class="bg-gray-900/50 backdrop-blur-xl rounded-2xl border border-white/10 p-8">
 				<!-- Progress and Timer -->
 				<div class="flex justify-between items-center mb-6">
-					<div class="text-sm text-gray-600 dark:text-gray-300">
+					<div class="text-sm text-white/60">
 						Question {currentSlideIndex + 1} of {totalQuestions}
 					</div>
 					<div class="flex items-center space-x-2">
-						<span class="text-sm text-gray-600 dark:text-gray-300">Time:</span>
-						<span class="text-lg font-bold {timeLeft <= 10 ? 'text-red-600' : 'text-blue-600'}">
+						<span class="text-sm text-white/60">Time:</span>
+						<span class="text-lg font-bold {timeLeft <= 10 ? 'text-red-400' : 'text-blue-400'}">
 							{timeLeft}s
 						</span>
 					</div>
@@ -172,7 +172,7 @@
 
 				<!-- Question -->
 				<div class="mb-8">
-					<h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-4">
+					<h2 class="text-2xl font-bold text-white mb-4">
 						{getCurrentSlide()?.title}
 					</h2>
 					
@@ -181,7 +181,7 @@
 						<div class="space-y-3">
 							{#each getCurrentSlide().content.answers as answer, index}
 								<button
-									class="w-full p-4 text-left border rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors {selectedAnswer === index.toString() ? 'border-blue-500 bg-blue-50 dark:bg-blue-900' : 'border-gray-300 dark:border-gray-600'}"
+									class="w-full p-4 text-left border rounded-xl hover:bg-white/5 transition-colors {selectedAnswer === index.toString() ? 'border-blue-500 bg-blue-600/20' : 'border-white/20'}"
 									on:click={() => selectedAnswer = index.toString()}
 									disabled={isAnswering}
 								>
@@ -196,7 +196,7 @@
 								type="text"
 								bind:value={typedAnswer}
 								placeholder="Type your answer..."
-								class="w-full p-4 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
+								class="w-full p-4 bg-black/50 border border-white/20 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white placeholder-white/40"
 								disabled={isAnswering}
 							/>
 						</div>
@@ -208,7 +208,7 @@
 					<button
 						on:click={submitAnswer}
 						disabled={isAnswering || (getCurrentSlide()?.type === 'multiple_choice' && !selectedAnswer) || (getCurrentSlide()?.type === 'type_answer' && !typedAnswer.trim())}
-						class="px-8 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+						class="px-8 py-3 bg-blue-600 text-white font-semibold rounded-xl hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-black"
 					>
 						{isAnswering ? 'Submitting...' : 'Submit Answer'}
 					</button>
@@ -217,24 +217,24 @@
 		{:else if gameStatus === 'finished'}
 			<!-- Quiz Finished -->
 			<div class="text-center py-12">
-				<div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8 max-w-2xl mx-auto">
-					<h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-4">Quiz Finished!</h2>
-					<p class="text-lg text-gray-600 dark:text-gray-300 mb-8">Thanks for participating!</p>
+				<div class="bg-gray-900/50 backdrop-blur-xl rounded-2xl border border-white/10 p-8 max-w-2xl mx-auto">
+					<h2 class="text-3xl font-bold text-white mb-4">Quiz Finished!</h2>
+					<p class="text-lg text-white/60 mb-8">Thanks for participating!</p>
 					
 					<div class="grid grid-cols-2 gap-6 mb-8">
 						<div class="text-center">
-							<div class="text-3xl font-bold text-blue-600">{score}</div>
-							<div class="text-sm text-gray-600 dark:text-gray-400">Total Score</div>
+							<div class="text-3xl font-bold text-blue-400">{score}</div>
+							<div class="text-sm text-white/60">Total Score</div>
 						</div>
 						<div class="text-center">
-							<div class="text-3xl font-bold text-green-600">{totalQuestions}</div>
-							<div class="text-sm text-gray-600 dark:text-gray-400">Questions</div>
+							<div class="text-3xl font-bold text-green-400">{totalQuestions}</div>
+							<div class="text-sm text-white/60">Questions</div>
 						</div>
 					</div>
 					
 					<button
 						on:click={() => goto('/')}
-						class="px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+						class="px-6 py-3 bg-blue-600 text-white font-semibold rounded-xl hover:bg-blue-700 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-black"
 					>
 						Back to Home
 					</button>

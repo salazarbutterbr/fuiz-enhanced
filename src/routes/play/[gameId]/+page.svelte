@@ -61,96 +61,111 @@
 	<title>Join Quiz - Fuiz Enhanced</title>
 </svelte:head>
 
-<div class="container mx-auto px-4 py-8 max-w-md">
-	<div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
-		<div class="text-center mb-6">
-			<h1 class="text-2xl font-bold text-gray-800 dark:text-white mb-2">
-				🎯 Join Quiz
-			</h1>
-			<p class="text-gray-600 dark:text-gray-300">
-				Game ID: <span class="font-mono bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded">{gameId}</span>
-			</p>
-			
-			{#if quiz}
-				<div class="mt-4 p-4 bg-blue-50 dark:bg-blue-900 rounded-lg">
-					<h3 class="font-semibold text-blue-900 dark:text-blue-100">{quiz.title}</h3>
-					{#if quiz.description}
-						<p class="text-sm text-blue-700 dark:text-blue-300 mt-1">{quiz.description}</p>
-					{/if}
-					<p class="text-xs text-blue-600 dark:text-blue-400 mt-2">
-						{quiz.slides?.length || 0} questions • {quiz.maxParticipants} max participants
-					</p>
+<div class="min-h-screen bg-black">
+	<!-- Header -->
+	<header class="bg-black/80 backdrop-blur-xl border-b border-white/10 sticky top-0 z-50">
+		<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+			<div class="flex justify-between items-center h-16">
+				<div class="flex items-center">
+					<h1 class="text-2xl font-bold text-white">Fuiz</h1>
+				</div>
+				<div class="flex items-center space-x-4">
+					<a href="/create" class="text-white/80 hover:text-white transition-colors">
+						Create Quiz
+					</a>
+					<a href="/host" class="text-white/80 hover:text-white transition-colors">
+						Host
+					</a>
+					<a href="/" class="text-white/80 hover:text-white transition-colors">
+						Home
+					</a>
+				</div>
+			</div>
+		</div>
+	</header>
+
+	<main class="max-w-md mx-auto px-4 py-16">
+		<div class="bg-gray-900/50 backdrop-blur-xl rounded-2xl border border-white/10 p-8">
+			<div class="text-center mb-8">
+				<h2 class="text-3xl font-bold text-white mb-2">
+					🎯 Join Quiz
+				</h2>
+				<p class="text-white/60">
+					Game ID: <span class="font-mono bg-black/50 px-2 py-1 rounded-lg border border-white/10">{gameId}</span>
+				</p>
+				
+				{#if quiz}
+					<div class="mt-6 p-4 bg-blue-600/20 rounded-xl border border-blue-500/20">
+						<h3 class="font-semibold text-blue-400 mb-1">{quiz.title}</h3>
+						{#if quiz.description}
+							<p class="text-sm text-blue-300">{quiz.description}</p>
+						{/if}
+						<p class="text-xs text-blue-400 mt-2">
+							{quiz.slides?.length || 0} questions • {quiz.maxParticipants} max participants
+						</p>
+					</div>
+				{/if}
+			</div>
+
+			{#if error}
+				<div class="mb-6 text-red-400 text-sm bg-red-900/20 border border-red-500/20 p-3 rounded-xl">
+					{error}
 				</div>
 			{/if}
-		</div>
 
-		{#if error}
-			<div class="mb-6 text-red-600 text-sm bg-red-50 dark:bg-red-900 p-3 rounded-md">
-				{error}
-			</div>
-		{/if}
+			{#if quiz}
+				<form on:submit|preventDefault={joinGame} class="space-y-6">
+					<!-- Language Selection -->
+					<div>
+						<label for="language" class="block text-sm font-medium text-white/80 mb-2">
+							🌍 Select Your Language
+						</label>
+						<select
+							id="language"
+							bind:value={selectedLanguage}
+							class="w-full px-4 py-3 bg-black/50 border border-white/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white"
+						>
+							{#each LanguageManager.getSupportedLanguages() as language}
+								<option value={language.code}>
+									{language.flag} {language.name}
+								</option>
+							{/each}
+						</select>
+					</div>
 
-		{#if quiz}
-			<form on:submit|preventDefault={joinGame} class="space-y-6">
-				<!-- Language Selection -->
-				<div>
-					<label for="language" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-						🌍 Select Your Language
-					</label>
-					<select
-						id="language"
-						bind:value={selectedLanguage}
-						class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+					<!-- Nickname Input -->
+					<div>
+						<label for="nickname" class="block text-sm font-medium text-white/80 mb-2">
+							👤 Enter Your Nickname
+						</label>
+						<input
+							id="nickname"
+							type="text"
+							bind:value={nickname}
+							placeholder="Your nickname..."
+							maxlength="20"
+							class="w-full px-4 py-3 bg-black/50 border border-white/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white placeholder-white/40"
+							required
+						/>
+					</div>
+
+					<!-- Join Button -->
+					<button
+						type="submit"
+						disabled={isLoading || !nickname.trim()}
+						class="w-full px-6 py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-black"
 					>
-						{#each LanguageManager.getSupportedLanguages() as language}
-							<option value={language.code}>
-								{language.flag} {language.name}
-							</option>
-						{/each}
-					</select>
-				</div>
+						{isLoading ? 'Joining...' : 'Join Game'}
+					</button>
+				</form>
+			{/if}
 
-				<!-- Nickname Input -->
-				<div>
-					<label for="nickname" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-						👤 Enter Your Nickname
-					</label>
-					<input
-						id="nickname"
-						type="text"
-						bind:value={nickname}
-						placeholder="Your nickname..."
-						maxlength="20"
-						class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
-						required
-					/>
-				</div>
-
-				<!-- Join Button -->
-				<button
-					type="submit"
-					disabled={isLoading || !nickname.trim()}
-					class="w-full px-6 py-3 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-				>
-					{isLoading ? 'Joining...' : 'Join Game'}
-				</button>
-			</form>
-		{/if}
-
-		<!-- Back to Home -->
-		<div class="mt-6 text-center">
-			<a href="/" class="text-blue-600 dark:text-blue-400 hover:underline">
-				← Back to Home
-			</a>
+			<!-- Back to Home -->
+			<div class="mt-6 text-center">
+				<a href="/" class="text-blue-400 hover:text-blue-300 transition-colors">
+					← Back to Home
+				</a>
+			</div>
 		</div>
-	</div>
-</div>
-
-<style>
-	.container {
-		min-height: 100vh;
-		background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-		padding-top: 2rem;
-		padding-bottom: 2rem;
-	}
-</style> 
+	</main>
+</div> 
